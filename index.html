@@ -7,12 +7,12 @@
     <style>
         * {
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
         }
         body {
-            background-color: #121212;
+            background-color: #0d0e12;
             color: #ffffff;
             padding: 15px;
             padding-bottom: 90px;
@@ -20,105 +20,129 @@
         .container {
             max-width: 480px;
             margin: 0 auto;
-            background: #1e1e1e;
+            background: #16181f;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #232733;
         }
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding-bottom: 12px;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid #282c3c;
             margin-bottom: 15px;
+        }
+        .brand-title {
+            background: linear-gradient(45deg, #FF9800, #FF5722);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 22px;
+            font-weight: 800;
         }
         .lang-select {
-            background: #2a2a2a;
-            color: #fff;
-            border: 1px solid #444;
-            padding: 6px;
-            border-radius: 4px;
-            font-size: 13px;
+            background: #222634;
+            color: #00E676;
+            border: 1px solid #00E676;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            outline: none;
+            cursor: pointer;
         }
         .product-card {
-            background: #2a2a2a;
-            padding: 12px;
-            border-radius: 8px;
+            background: #1e2230;
+            padding: 14px;
+            border-radius: 12px;
             margin-bottom: 15px;
-            border: 1px solid #333;
+            border: 1px solid #2b3044;
+            transition: transform 0.2s;
         }
         .main-img {
             width: 100%;
             height: 220px;
             object-fit: cover;
-            border-radius: 6px;
+            border-radius: 8px;
         }
         .thumbnails {
             display: flex;
             gap: 8px;
-            margin: 8px 0;
+            margin: 10px 0;
         }
         .thumb {
             width: 45px;
             height: 45px;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             object-fit: cover;
             border: 2px solid transparent;
+            opacity: 0.7;
         }
         .thumb.active {
-            border-color: #25D366;
+            border-color: #00E676;
+            opacity: 1;
         }
         .product-title {
             font-size: 15px;
-            font-weight: bold;
+            font-weight: 600;
             margin: 8px 0;
             line-height: 1.4;
+            color: #e2e8f0;
         }
         .price-tag {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         .discount-badge {
-            background: #e53935;
+            background: #ff1744;
             color: #fff;
-            padding: 2px 5px;
+            padding: 3px 8px;
             font-size: 11px;
-            border-radius: 3px;
+            font-weight: bold;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
         }
         .product-price {
-            color: #25D366;
-            font-weight: bold;
-            font-size: 17px;
+            color: #00E676;
+            font-weight: 800;
+            font-size: 18px;
         }
         .original-price {
             text-decoration: line-through;
-            color: #888;
+            color: #64748b;
             font-size: 13px;
-            margin-left: 5px;
         }
         .btn-group {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
         .btn-buy {
             flex: 1;
-            background: #ff9800;
+            background: linear-gradient(135deg, #FF9800, #F57C00);
             color: #fff;
             border: none;
-            padding: 10px;
+            padding: 12px;
             font-weight: bold;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
         }
         .btn-cart {
             flex: 1;
-            background: #2979ff;
+            background: linear-gradient(135deg, #2979ff, #1565c0);
             color: #fff;
             border: none;
-            padding: 10px;
+            padding: 12px;
             font-weight: bold;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(41, 121, 255, 0.3);
         }
         
         /* Floating Cart */
@@ -126,29 +150,29 @@
             position: fixed;
             bottom: 20px;
             left: 20px;
-            background: #25D366;
+            background: #00E676;
             color: #000;
-            width: 50px;
-            height: 50px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+            font-size: 24px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 6px 20px rgba(0, 230, 118, 0.4);
             z-index: 99;
         }
         .cart-badge {
             position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ff9800;
+            top: -2px;
+            right: -2px;
+            background: #ff1744;
             color: #fff;
             font-size: 11px;
             font-weight: bold;
             border-radius: 50%;
-            padding: 2px 6px;
+            padding: 3px 7px;
         }
 
         /* Modals */
@@ -157,63 +181,101 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
             justify-content: center;
             align-items: center;
             z-index: 1000;
             padding: 15px;
         }
         .modal-content {
-            background: #1e1e1e;
-            padding: 20px;
-            border-radius: 8px;
+            background: #181b26;
+            padding: 22px;
+            border-radius: 16px;
             width: 100%;
-            max-width: 420px;
+            max-width: 430px;
             max-height: 90vh;
             overflow-y: auto;
+            border: 1px solid #2d3348;
         }
         .close-btn {
             float: right;
-            font-size: 22px;
+            font-size: 24px;
             cursor: pointer;
-            color: #888;
+            color: #94a3b8;
         }
         .form-group {
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
         .form-group label {
             display: block;
-            font-size: 13px;
-            margin-bottom: 4px;
-            color: #ccc;
+            font-size: 12px;
+            margin-bottom: 6px;
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
-            padding: 10px;
-            background: #2a2a2a;
-            border: 1px solid #444;
-            color: #fff;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        .pay-box {
-            background: #1c3b2b;
-            border: 1px solid #25D366;
             padding: 12px;
-            border-radius: 6px;
-            margin: 12px 0;
-            font-size: 13px;
-            line-height: 1.4;
+            background: #0f111a;
+            border: 1px solid #2a3045;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
         }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #00E676;
+        }
+
+        /* Cool Note Box */
+        .cool-note-box {
+            background: linear-gradient(135deg, #0e2a1f, #071a13);
+            border: 1px solid #00E676;
+            padding: 14px;
+            border-radius: 10px;
+            margin: 15px 0;
+            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.15);
+        }
+        .note-header {
+            color: #00E676;
+            font-size: 15px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        .acc-highlight {
+            background: #00E676;
+            color: #000;
+            font-size: 16px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: inline-block;
+            margin: 6px 0;
+            letter-spacing: 1px;
+        }
+        .note-text {
+            color: #cbd5e1;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
         .btn-confirm {
             width: 100%;
-            background: #25D366;
-            color: #fff;
+            background: linear-gradient(135deg, #00E676, #00b0ff);
+            color: #000;
             border: none;
-            padding: 12px;
-            font-size: 15px;
-            font-weight: bold;
-            border-radius: 4px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 800;
+            border-radius: 8px;
             cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.4);
+            text-transform: uppercase;
         }
         
         .rtl {
@@ -229,11 +291,11 @@
 
 <div class="container">
     <div class="header">
+        <h2 class="brand-title">Smart Deals PK</h2>
         <select class="lang-select" id="langSelector" onchange="switchLanguage()">
-            <option value="en">English</option>
-            <option value="ur">اردو (Urdu)</option>
+            <option value="en">⚡ English</option>
+            <option value="ur">🇵🇰 اردو</option>
         </select>
-        <h2>Smart Deals PK</h2>
     </div>
 
     <!-- Product 1 -->
@@ -276,7 +338,7 @@
     </div>
 </div>
 
-<!-- Bottom Left Floating Cart -->
+<!-- Floating Cart Button -->
 <div class="floating-cart" onclick="openCartModal()">
     🛒 <span class="cart-badge" id="cCount">0</span>
 </div>
@@ -285,22 +347,25 @@
 <div class="modal" id="cartModal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal('cartModal')">&times;</span>
-        <h3 id="cartHeaderTitle">Shopping Cart</h3>
+        <h3 id="cartHeaderTitle" style="color: #00E676;">Shopping Cart</h3>
         <br>
-        <div id="cartList">Cart is empty</div>
+        <div id="cartList" style="color: #94a3b8;">Cart is empty</div>
         <br>
-        <h4><span id="cartTotalText">Total</span>: Rs. <span id="cTotal">0</span></h4>
+        <h4 style="display:flex; justify-content:space-between; border-top:1px solid #2d3348; padding-top:10px;">
+            <span id="cartTotalText">Total</span>
+            <span style="color: #00E676;">Rs. <span id="cTotal">0</span></span>
+        </h4>
         <br>
         <button class="btn-buy" id="btnProceedCart" style="width: 100%;" onclick="checkoutCart()">Proceed to Checkout</button>
     </div>
 </div>
 
-<!-- Checkout & Payment Form Modal -->
+<!-- Checkout & Payment Modal -->
 <div class="modal" id="checkoutModal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal('checkoutModal')">&times;</span>
-        <h3 id="checkoutHeaderTitle">Enter Delivery & Payment Details</h3>
-        <br>
+        <h3 id="checkoutHeaderTitle" style="color:#FF9800; margin-bottom:12px;">Checkout Details</h3>
+
         <form onsubmit="finishOrder(event)">
             <div class="form-group">
                 <label id="lbl1">Full Name *</label>
@@ -317,24 +382,25 @@
             <div class="form-group">
                 <label id="lbl4">Select Online Payment Method *</label>
                 <select id="payMethod" onchange="renderPaymentBox()" required>
-                    <option value="">-- Select Option --</option>
+                    <option value="">-- Choose Payment --</option>
                     <option value="EasyPaisa">EasyPaisa</option>
                     <option value="JazzCash">JazzCash</option>
                 </select>
             </div>
 
-            <div class="pay-box" id="payBox" style="display:none;">
-                <b id="pBoxTitle">Payment Instruction</b>
-                <div class="form-group" style="margin-top: 8px;">
-                    <label id="lbl5">Enter Mobile Account Number *</label>
-                    <input type="tel" id="accountNum" placeholder="03XXXXXXXXX">
+            <!-- Cool Payment Instruction Box (Triggers ONLY when option selected) -->
+            <div class="cool-note-box" id="payBox" style="display:none;">
+                <div class="note-header" id="pBoxTitle">⚡ Quick Payment Steps</div>
+                <div class="note-text" id="pBoxDesc">
+                    <!-- Dynamic Instruction Text via JS -->
                 </div>
-                <div id="pBoxDesc">
-                    <!-- Dynamic Payment Instructions -->
+                <div class="form-group" style="margin-top: 12px; margin-bottom: 0;">
+                    <label id="lbl5" style="color:#00E676;">Transaction ID / Paid Number *</label>
+                    <input type="text" id="trxNum" placeholder="Trx ID or Sender Number" required>
                 </div>
             </div>
 
-            <button type="submit" class="btn-confirm" id="btnSubmit">Pay Online & Confirm Order</button>
+            <button type="submit" class="btn-confirm" id="btnSubmit">Confirm & Send Order</button>
         </form>
     </div>
 </div>
@@ -346,7 +412,7 @@
     const productData = {
         1: {
             en: "Sank Magic Practice Copybook Set - 4 Books with Pen & 10 Refills",
-            ur: "Sank Magic Practice Copybook Set - 4 کتابیں، 1 پین اور 10 ریفلز",
+            ur: "Sank Magic Copybook Set - 4 کتابیں، 1 پین اور 10 ریفلز",
             price: 500
         },
         2: {
@@ -364,15 +430,15 @@
             cartBtn: "Add To Cart",
             cartHeader: "Shopping Cart",
             cartEmpty: "Cart is empty",
-            cartTotal: "Total",
+            cartTotal: "Total Amount",
             proceedBtn: "Proceed to Checkout",
-            checkoutHeader: "Enter Delivery & Payment Details",
+            checkoutHeader: "Checkout Details",
             lbl1: "Full Name *",
             lbl2: "Phone / WhatsApp Number *",
             lbl3: "Full Delivery Address *",
             lbl4: "Select Online Payment Method *",
-            lbl5: "Enter Mobile Account Number *",
-            btnSubmit: "Pay Online & Confirm Order",
+            lbl5: "Transaction ID / Sender Number *",
+            btnSubmit: "Confirm & Send Order",
             addedMsg: " added to cart!"
         },
         ur: {
@@ -384,13 +450,13 @@
             cartEmpty: "کارٹ خالی ہے",
             cartTotal: "کل رقم",
             proceedBtn: "آرڈر مکمل کریں",
-            checkoutHeader: "ڈلیوری اور پیمنٹ کی تفصیلات درج کریں",
+            checkoutHeader: "ڈلیوری اور پیمنٹ کی تفصیلات",
             lbl1: "پورا نام *",
             lbl2: "فون / واٹس ایپ نمبر *",
             lbl3: "مکمل پتہ *",
             lbl4: "آن لائن ادائیگی کا طریقہ منتخب کریں *",
-            lbl5: "اپنا موبائل اکاؤنٹ نمبر درج کریں *",
-            btnSubmit: "آن لائن ادا کریں اور آرڈر مکمل کریں",
+            lbl5: "ٹرانزیکشن ID یا بھیجنے والا نمبر *",
+            btnSubmit: "آرڈر مکمل اور واٹس ایپ پر بھیجیں",
             addedMsg: " کارٹ میں شامل کر دیا گیا ہے!"
         }
     };
@@ -418,11 +484,11 @@
             list.innerHTML = translations[lang].cartEmpty;
         } else {
             list.innerHTML = '';
-            cart.forEach((item, index) => {
+            cart.forEach((item) => {
                 total += item.price;
-                list.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                list.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:8px; color:#fff;">
                     <span>${item.title}</span>
-                    <b>Rs. ${item.price}</b>
+                    <b style="color:#00E676;">Rs. ${item.price}</b>
                 </div>`;
             });
         }
@@ -460,12 +526,22 @@
 
         if(m === "EasyPaisa" || m === "JazzCash") {
             box.style.display = 'block';
+            let total = currentOrder.reduce((s, i) => s + i.price, 0);
+
             if(lang === 'ur') {
-                document.getElementById('pBoxTitle').innerText = m + ' آن لائن پیمنٹ ہدایات';
-                desc.innerHTML = `اوپر اپنا اکاؤنٹ نمبر درج کریں۔ آپ کی <b>${m}</b> ایپ میں پیمنٹ ریکوئسٹ (MPIN) آئے گی۔ آپ کو اپنا MPIN درج کر کے اکاؤنٹ <b>03711965637</b> پر رقم کی منظوری دینی ہوگی۔`;
+                document.getElementById('pBoxTitle').innerText = '⚡ ' + m + ' سے ادائیگی کا آسان طریقہ';
+                desc.innerHTML = `
+                    برائے مہربانی <b style="color:#FF9800;">Rs. ${total}</b> اپنے <b>${m}</b> سے نیچے دیے گئے نمبر پر منتقل کریں:<br>
+                    <div class="acc-highlight">03711965637</div><br>
+                    رقم بھیجنے کے بعد ملنے والی <b>Trx ID</b> یا اپنا <b>موبائل نمبر</b> نیچے درج کریں۔
+                `;
             } else {
-                document.getElementById('pBoxTitle').innerText = m + ' Online Payment Instruction';
-                desc.innerHTML = `Enter your account number above. An MPIN prompt will be sent to your <b>${m}</b> App to approve the payment to account <b>03711965637</b>.`;
+                document.getElementById('pBoxTitle').innerText = '⚡ ' + m + ' Quick Transfer';
+                desc.innerHTML = `
+                    Please transfer <b style="color:#FF9800;">Rs. ${total}</b> via <b>${m}</b> to the official account below:<br>
+                    <div class="acc-highlight">03711965637</div><br>
+                    After payment, enter the <b>Trx ID</b> or your <b>Sender Account Number</b> below.
+                `;
             }
         } else {
             box.style.display = 'none';
@@ -478,71 +554,13 @@
         let phone = document.getElementById('custPhone').value;
         let address = document.getElementById('custAddress').value;
         let method = document.getElementById('payMethod').value;
-        let acc = document.getElementById('accountNum').value;
-
-        if(!acc) {
-            alert('Please enter your Mobile Account Number!');
-            return;
-        }
+        let trx = document.getElementById('trxNum').value;
 
         let total = currentOrder.reduce((s, i) => s + i.price, 0);
         let items = currentOrder.map(i => i.title + " (Rs. " + i.price + ")").join(", ");
 
-        alert("Payment Request Sent!\nCheck your " + method + " App to enter MPIN and authorize Rs. " + total + ".\n\nClick OK to redirect to WhatsApp.");
-
-        let msg = "*ONLINE PAID ORDER*%0A%0A" +
+        let msg = "*NEW ONLINE ORDER*%0A%0A" +
             "*Items:* " + encodeURIComponent(items) + "%0A" +
-            "*Total Paid:* Rs. " + total + "%0A" +
+            "*Total Amount:* Rs. " + total + "%0A" +
             "*Name:* " + encodeURIComponent(name) + "%0A" +
-            "*Phone:* " + encodeURIComponent(phone) + "%0A" +
-            "*Address:* " + encodeURIComponent(address) + "%0A" +
-            "*Method:* " + encodeURIComponent(method) + "%0A" +
-            "*Paid From Acc:* " + encodeURIComponent(acc);
-
-        window.location.href = "https://wa.me/923711965637?text=" + msg;
-    }
-
-    function switchLanguage() {
-        let lang = document.getElementById('langSelector').value;
-        let t = translations[lang];
-
-        // Toggle layout text direction for Urdu
-        if(lang === 'ur') {
-            document.body.classList.add('rtl');
-        } else {
-            document.body.classList.remove('rtl');
-        }
-
-        // Titles
-        document.getElementById('t1').innerText = productData[1][lang];
-        document.getElementById('t2').innerText = productData[2][lang];
-
-        // Badges
-        document.getElementById('disc1').innerText = t.disc1;
-        document.getElementById('disc2').innerText = t.disc2;
-
-        // Buttons
-        document.querySelectorAll('.btnBuyText').forEach(b => b.innerText = t.buyBtn);
-        document.querySelectorAll('.btnCartText').forEach(b => b.innerText = t.cartBtn);
-
-        // Cart Modal
-        document.getElementById('cartHeaderTitle').innerText = t.cartHeader;
-        document.getElementById('cartTotalText').innerText = t.cartTotal;
-        document.getElementById('btnProceedCart').innerText = t.proceedBtn;
-
-        // Checkout Modal
-        document.getElementById('checkoutHeaderTitle').innerText = t.checkoutHeader;
-        document.getElementById('lbl1').innerText = t.lbl1;
-        document.getElementById('lbl2').innerText = t.lbl2;
-        document.getElementById('lbl3').innerText = t.lbl3;
-        document.getElementById('lbl4').innerText = t.lbl4;
-        document.getElementById('lbl5').innerText = t.lbl5;
-        document.getElementById('btnSubmit').innerText = t.btnSubmit;
-
-        renderPaymentBox();
-    }
-</script>
-
-</body>
-    </html>
-    
+            "*Phone:* " + encodeURIComponent(phone
