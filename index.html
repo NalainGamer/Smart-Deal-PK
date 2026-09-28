@@ -1,42 +1,181 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ur">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Deals PK</title>
+    <title>Order Now - Smart Deals PK</title>
     <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
-        h1 {
+            background-color: #f4f6f9;
             color: #333;
-        }
-        .product-card {
-            background: #fff;
             padding: 20px;
-            border-radius: 10px;
-            display: inline-block;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            max-width: 400px;
         }
-        .product-card img {
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        input, select, textarea {
             width: 100%;
-            height: auto;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+        .payment-box {
+            background: #eef9f1;
+            border: 1px solid #25d366;
+            padding: 15px;
             border-radius: 8px;
+            margin: 20px 0;
+        }
+        .payment-box h3 {
+            color: #128c7e;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .payment-details {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .btn-whatsapp {
+            width: 100%;
+            background-color: #25D366;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .btn-whatsapp:hover {
+            background-color: #1ebc57;
         }
     </style>
 </head>
 <body>
 
-    <div class="product-card">
-        <h1>Smart Deals PK</h1>
-        <img src="image.jpg" alt="Sank Magic Copybook" width="300">
-        <h2>Sank Magic Practice Copybook Set</h2>
-        <p>4 Books + Pen + 10 Refills</p>
-    </div>
+<div class="container">
+    <h2>Complete Your Order</h2>
+    
+    <form id="orderForm">
+        <div class="form-group">
+            <label>Aap Ka Naam (Full Name):</label>
+            <input type="text" id="name" placeholder="Ali Khan" required>
+        </div>
+
+        <div class="form-group">
+            <label>Phone Number:</label>
+            <input type="tel" id="phone" placeholder="03001234567" required>
+        </div>
+
+        <div class="form-group">
+            <label>Complete Address (Ghar ka pata):</label>
+            <textarea id="address" rows="3" placeholder="House #, Street #, Area, City" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Select Product:</label>
+            <select id="product">
+                <option value="Product A - Rs. 1500">Product A - Rs. 1,500</option>
+                <option value="Product B - Rs. 2500">Product B - Rs. 2,500</option>
+                <option value="Product C - Rs. 3500">Product C - Rs. 3,500</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Payment Method:</label>
+            <select id="paymentMethod" onchange="togglePaymentInfo()">
+                <option value="Cash on Delivery">Cash on Delivery (COD)</option>
+                <option value="EasyPaisa">EasyPaisa</option>
+                <option value="JazzCash">JazzCash</option>
+            </select>
+        </div>
+
+        <!-- EasyPaisa / JazzCash Details Box -->
+        <div class="payment-box" id="paymentDetails" style="display: none;">
+            <h3>Payment Account Details:</h3>
+            <div class="payment-details">
+                <p><strong>Account Title:</strong> Smart Deals PK / Your Name</p>
+                <p><strong>EasyPaisa / JazzCash No:</strong> 03XXXXXXXXX</p>
+                <p style="margin-top: 5px; color: #d9534f; font-size: 12px;">* Payment karne ke baad screenshot WhatsApp par send kar dein.</p>
+            </div>
+        </div>
+
+        <button type="button" class="btn-whatsapp" onclick="sendToWhatsApp()">
+            Order Via WhatsApp
+        </button>
+    </form>
+</div>
+
+<script>
+    function togglePaymentInfo() {
+        var method = document.getElementById("paymentMethod").value;
+        var paymentBox = document.getElementById("paymentDetails");
+        
+        if (method === "EasyPaisa" || method === "JazzCash") {
+            paymentBox.style.display = "block";
+        } else {
+            paymentBox.style.display = "none";
+        }
+    }
+
+    function sendToWhatsApp() {
+        // Aapka WhatsApp number (country code 92 ke saath, bina '+' ya space ke)
+        var whatsappNumber = "923001234567"; // Yahan apna WhatsApp number likhein
+
+        var name = document.getElementById("name").value;
+        var phone = document.getElementById("phone").value;
+        var address = document.getElementById("address").value;
+        var product = document.getElementById("product").value;
+        var paymentMethod = document.getElementById("paymentMethod").value;
+
+        if (name === "" || phone === "" || address === "") {
+            alert("Meharbani karke tamam details fill karein!");
+            return;
+        }
+
+        var message = "*NEW ORDER DETAILS*%0A%0A" +
+            "*Name:* " + encodeURIComponent(name) + "%0A" +
+            "*Phone:* " + encodeURIComponent(phone) + "%0A" +
+            "*Address:* " + encodeURIComponent(address) + "%0A" +
+            "*Product:* " + encodeURIComponent(product) + "%0A" +
+            "*Payment Method:* " + encodeURIComponent(paymentMethod);
+
+        var whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + message;
+        window.open(whatsappUrl, '_blank');
+    }
+</script>
 
 </body>
-</html>
+    </html>
+    
