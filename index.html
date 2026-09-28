@@ -27,7 +27,26 @@
         h2 {
             text-align: center;
             color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        .product-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
             margin-bottom: 20px;
+            text-align: center;
+        }
+        .product-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .product-price {
+            font-size: 20px;
+            color: #27ae60;
+            font-weight: bold;
+            margin-top: 5px;
         }
         .form-group {
             margin-bottom: 15px;
@@ -86,6 +105,12 @@
 
 <div class="container">
     <h2>Complete Your Order</h2>
+
+    <!-- Single Product Details -->
+    <div class="product-card">
+        <div class="product-title" id="productName">Special Deal Item</div>
+        <div class="product-price">Price: Rs. 500</div>
+    </div>
     
     <form id="orderForm">
         <div class="form-group">
@@ -104,30 +129,20 @@
         </div>
 
         <div class="form-group">
-            <label>Select Product:</label>
-            <select id="product">
-                <option value="Product A - Rs. 1500">Product A - Rs. 1,500</option>
-                <option value="Product B - Rs. 2500">Product B - Rs. 2,500</option>
-                <option value="Product C - Rs. 3500">Product C - Rs. 3,500</option>
-            </select>
-        </div>
-
-        <div class="form-group">
             <label>Payment Method:</label>
             <select id="paymentMethod" onchange="togglePaymentInfo()">
                 <option value="Cash on Delivery">Cash on Delivery (COD)</option>
                 <option value="EasyPaisa">EasyPaisa</option>
-                <option value="JazzCash">JazzCash</option>
             </select>
         </div>
 
-        <!-- EasyPaisa / JazzCash Details Box -->
+        <!-- EasyPaisa Account Box -->
         <div class="payment-box" id="paymentDetails" style="display: none;">
-            <h3>Payment Account Details:</h3>
+            <h3>EasyPaisa Payment Details:</h3>
             <div class="payment-details">
-                <p><strong>Account Title:</strong> Smart Deals PK / Your Name</p>
-                <p><strong>EasyPaisa / JazzCash No:</strong> 03XXXXXXXXX</p>
-                <p style="margin-top: 5px; color: #d9534f; font-size: 12px;">* Payment karne ke baad screenshot WhatsApp par send kar dein.</p>
+                <p><strong>EasyPaisa Number:</strong> 03711965637</p>
+                <p><strong>Total Amount:</strong> Rs. 500</p>
+                <p style="margin-top: 5px; color: #d9534f; font-size: 12px;">* Payment bhejney ke baad screenshot WhatsApp par zaroor send karein.</p>
             </div>
         </div>
 
@@ -142,7 +157,7 @@
         var method = document.getElementById("paymentMethod").value;
         var paymentBox = document.getElementById("paymentDetails");
         
-        if (method === "EasyPaisa" || method === "JazzCash") {
+        if (method === "EasyPaisa") {
             paymentBox.style.display = "block";
         } else {
             paymentBox.style.display = "none";
@@ -150,14 +165,14 @@
     }
 
     function sendToWhatsApp() {
-        // Aapka WhatsApp number (country code 92 ke saath, bina '+' ya space ke)
-        var whatsappNumber = "923001234567"; // Yahan apna WhatsApp number likhein
+        // Aapka WhatsApp number (Country code 92 ke saath)
+        var whatsappNumber = "923711965637";
 
         var name = document.getElementById("name").value;
         var phone = document.getElementById("phone").value;
         var address = document.getElementById("address").value;
-        var product = document.getElementById("product").value;
         var paymentMethod = document.getElementById("paymentMethod").value;
+        var productName = document.getElementById("productName").innerText;
 
         if (name === "" || phone === "" || address === "") {
             alert("Meharbani karke tamam details fill karein!");
@@ -165,10 +180,11 @@
         }
 
         var message = "*NEW ORDER DETAILS*%0A%0A" +
+            "*Item:* " + encodeURIComponent(productName) + "%0A" +
+            "*Price:* Rs. 500%0A" +
             "*Name:* " + encodeURIComponent(name) + "%0A" +
             "*Phone:* " + encodeURIComponent(phone) + "%0A" +
             "*Address:* " + encodeURIComponent(address) + "%0A" +
-            "*Product:* " + encodeURIComponent(product) + "%0A" +
             "*Payment Method:* " + encodeURIComponent(paymentMethod);
 
         var whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + message;
@@ -177,5 +193,5 @@
 </script>
 
 </body>
-    </html>
-    
+            </html>
+                                                                         
