@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ur">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +15,7 @@
             background-color: #121212;
             color: #ffffff;
             padding: 20px;
+            padding-bottom: 80px;
         }
         .container {
             max-width: 500px;
@@ -25,7 +26,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         
-        /* Header & Cart Icon */
+        /* Header & Language Switcher */
         .header {
             display: flex;
             justify-content: space-between;
@@ -38,20 +39,43 @@
             font-size: 20px;
             color: #fff;
         }
-        .cart-icon {
-            position: relative;
+        .lang-select {
+            background: #2a2a2a;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 13px;
             cursor: pointer;
-            font-size: 24px;
+        }
+
+        /* Floating Cart Icon Bottom Left */
+        .cart-icon-bottom {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #25D366;
+            color: #000;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 26px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            z-index: 999;
         }
         .cart-badge {
             position: absolute;
-            top: -8px;
-            right: -10px;
-            background-color: #25D366;
-            color: #000;
+            top: -5px;
+            right: -5px;
+            background-color: #ff9800;
+            color: #fff;
             font-weight: bold;
             border-radius: 50%;
-            padding: 2px 6px;
+            padding: 2px 7px;
             font-size: 12px;
         }
 
@@ -112,19 +136,35 @@
             font-size: 14px;
             margin-left: 5px;
         }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .btn-buy-now {
+            flex: 1;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
         .btn-add-cart {
-            width: 100%;
+            flex: 1;
             background-color: #2979ff;
             color: white;
             border: none;
-            padding: 10px;
+            padding: 12px;
             font-weight: bold;
             border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
         }
 
-        /* Form Styling */
+        /* Form Styling inside Modal */
         .form-group {
             margin-bottom: 15px;
         }
@@ -145,27 +185,54 @@
             font-size: 15px;
         }
         
-        /* Payment Box */
+        /* Payment Instructions Box */
         .payment-box {
             background: #1c3b2b;
             border: 1px solid #25d366;
             padding: 15px;
             border-radius: 8px;
-            margin: 20px 0;
+            margin: 15px 0;
         }
-        .payment-box h3 {
+        .payment-box h4 {
             color: #25d366;
-            font-size: 16px;
-            margin-bottom: 10px;
+            font-size: 15px;
+            margin-bottom: 8px;
         }
-        .payment-details {
-            font-size: 14px;
-            line-height: 1.6;
+        .payment-instructions {
+            font-size: 13px;
+            line-height: 1.5;
             color: #ddd;
+        }
+        .payment-instructions ol {
+            padding-left: 18px;
+            margin-top: 5px;
+        }
+
+        /* Checkout Modal */
+        .checkout-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px 10px;
+        }
+        .checkout-content {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 450px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
         }
 
         /* Buttons */
-        .btn-whatsapp {
+        .btn-pay {
             width: 100%;
             background-color: #25D366;
             color: white;
@@ -179,9 +246,9 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            text-decoration: none;
+            margin-top: 10px;
         }
-        .btn-whatsapp:hover {
+        .btn-pay:hover {
             background-color: #1ebc57;
         }
 
@@ -229,13 +296,14 @@
 <div class="container">
     <!-- Header -->
     <div class="header">
+        <select class="lang-select" id="langSelector" onchange="changeLanguage()">
+            <option value="en">English</option>
+            <option value="ur">اردو (Urdu)</option>
+        </select>
         <h1>Smart Deals PK</h1>
-        <div class="cart-icon" onclick="toggleCart()">
-            🛒 <span class="cart-badge" id="cartCount">0</span>
-        </div>
     </div>
 
-    <h2>Our Products</h2>
+    <h2 id="txtProductsHeading">Our Products</h2>
     <br>
 
     <!-- Product 1 -->
@@ -245,13 +313,16 @@
             <img src="https://i.ibb.co/G4bBTKtK/image1.jpg" class="thumb active" onclick="changeImage('mainImg1', this.src, this)">
             <img src="https://i.ibb.co/N6GfYySv/image2.jpg" class="thumb" onclick="changeImage('mainImg1', this.src, this)">
         </div>
-        <div class="product-title">Sank Magic Practice Copybook Set - 4 Books with Pen & 10 Refills</div>
+        <div class="product-title" id="p1Title">Sank Magic Practice Copybook Set - 4 Books with Pen & 10 Refills</div>
         <div class="price-tag">
             <span class="discount-badge">30% OFF</span>
             <span class="product-price">Rs. 500</span>
             <span class="original-price">Rs. 714</span>
         </div>
-        <button class="btn-add-cart" onclick="addToCart('Sank Magic Practice Copybook Set', 500)">Add To Cart</button>
+        <div class="btn-group">
+            <button class="btn-buy-now btnBuyNowText" onclick="openCheckout('Sank Magic Practice Copybook Set', 500)">Buy Now</button>
+            <button class="btn-add-cart btnAddCartText" onclick="addToCart('Sank Magic Practice Copybook Set', 500)">Add To Cart</button>
+        </div>
     </div>
 
     <!-- Product 2 -->
@@ -262,73 +333,153 @@
             <img src="https://i.ibb.co/dw1gTTJM/cam2.jpg" class="thumb" onclick="changeImage('mainImg2', this.src, this)">
             <img src="https://i.ibb.co/WvhZzHxC/cam3.jpg" class="thumb" onclick="changeImage('mainImg2', this.src, this)">
         </div>
-        <div class="product-title">Kids DIY Instant Digital Camera with Photo Printing (Random Color)</div>
+        <div class="product-title" id="p2Title">Kids DIY Instant Digital Camera with Photo Printing (Random Color)</div>
         <div class="price-tag">
             <span class="discount-badge">50% OFF</span>
             <span class="product-price">Rs. 3,500</span>
             <span class="original-price">Rs. 7,000</span>
         </div>
-        <button class="btn-add-cart" onclick="addToCart('Kids DIY Instant Digital Camera', 3500)">Add To Cart</button>
+        <div class="btn-group">
+            <button class="btn-buy-now btnBuyNowText" onclick="openCheckout('Kids DIY Instant Digital Camera', 3500)">Buy Now</button>
+            <button class="btn-add-cart btnAddCartText" onclick="addToCart('Kids DIY Instant Digital Camera', 3500)">Add To Cart</button>
+        </div>
     </div>
+</div>
 
-    <!-- Order Form -->
-    <h2 style="margin-top: 30px;">Complete Your Order</h2>
-    <br>
-    <form id="orderForm">
-        <div class="form-group">
-            <label>Aap Ka Naam (Full Name):</label>
-            <input type="text" id="name" placeholder="e.g. Nalain" required>
-        </div>
-
-        <div class="form-group">
-            <label>Phone / WhatsApp Number:</label>
-            <input type="tel" id="phone" placeholder="03XXXXXXXXX" required>
-        </div>
-
-        <div class="form-group">
-            <label>Complete Address (Ghar ka pata):</label>
-            <textarea id="address" rows="3" placeholder="House #, Street #, Area, City" required></textarea>
-        </div>
-
-        <div class="form-group">
-            <label>Payment Method:</label>
-            <select id="paymentMethod" onchange="togglePaymentInfo()">
-                <option value="Cash on Delivery">Cash on Delivery (COD)</option>
-                <option value="EasyPaisa">EasyPaisa</option>
-            </select>
-        </div>
-
-        <!-- EasyPaisa Account Box -->
-        <div class="payment-box" id="paymentDetails" style="display: none;">
-            <h3>EasyPaisa Payment Details:</h3>
-            <div class="payment-details">
-                <p><strong>EasyPaisa Number:</strong> 03711965637</p>
-                <p><strong>Account Title:</strong> Smart Deals PK</p>
-                <p><strong>Advance Payment:</strong> Rs. 500 Pehle send karne honge.</p>
-                <p style="margin-top: 5px; color: #ffab91; font-size: 12px;">* Payment bhejney ke baad screenshot WhatsApp par zaroor send karein.</p>
-            </div>
-        </div>
-
-        <button type="button" class="btn-whatsapp" onclick="sendToWhatsApp()">
-            Confirm Order Via WhatsApp
-        </button>
-    </form>
+<!-- Floating Bottom Left Cart -->
+<div class="cart-icon-bottom" onclick="toggleCart()">
+    🛒 <span class="cart-badge" id="cartCount">0</span>
 </div>
 
 <!-- Cart Modal -->
 <div class="cart-modal" id="cartModal">
     <div class="cart-content">
         <span class="close-btn" onclick="toggleCart()">&times;</span>
-        <h3>Your Cart Items</h3>
+        <h3 id="lblCartTitle">Your Cart Items</h3>
         <br>
         <div id="cartItemsContainer">Empty</div>
         <br>
-        <h4>Total: Rs. <span id="cartTotal">0</span></h4>
+        <h4><span id="lblCartTotal">Total</span>: Rs. <span id="cartTotal">0</span></h4>
+        <button class="btn-buy-now" style="margin-top: 15px; width:100%;" onclick="checkoutFromCart()">Proceed to Checkout</button>
+    </div>
+</div>
+
+<!-- Order & Payment Modal (Only opens after Buy Now) -->
+<div class="checkout-modal" id="checkoutModal">
+    <div class="checkout-content">
+        <span class="close-btn" onclick="closeCheckout()">&times;</span>
+        <h3 id="modalOrderHeader">Enter Delivery & Payment Details</h3>
+        <br>
+        <form id="checkoutForm">
+            <div class="form-group">
+                <label id="lblFullName">Full Name *</label>
+                <input type="text" id="custName" placeholder="e.g. Nalain" required>
+            </div>
+
+            <div class="form-group">
+                <label id="lblPhone">Phone / WhatsApp Number *</label>
+                <input type="tel" id="custPhone" placeholder="03XXXXXXXXX" required>
+            </div>
+
+            <div class="form-group">
+                <label id="lblAddress">Full Delivery Address *</label>
+                <textarea id="custAddress" rows="3" placeholder="House #, Street #, Sector, Area, City" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label id="lblPayment">Select Online Payment Method *</label>
+                <select id="paymentMethod" onchange="togglePaymentInfo()">
+                    <option value="">-- Choose Option --</option>
+                    <option value="EasyPaisa">EasyPaisa Online Payment</option>
+                    <option value="JazzCash">JazzCash Online Payment</option>
+                </select>
+            </div>
+
+            <!-- Dynamic Payment Details Box -->
+            <div class="payment-box" id="paymentDetails" style="display: none;">
+                <h4 id="payBoxTitle">Online Payment Instruction</h4>
+                
+                <div class="form-group" style="margin-top: 10px;">
+                    <label id="lblAccountInput">Enter Mobile Account Number *</label>
+                    <input type="tel" id="walletAccountNum" placeholder="03XXXXXXXXX">
+                </div>
+
+                <div class="payment-instructions" id="payInstructions">
+                    <!-- Dynamic Text via JS -->
+                </div>
+            </div>
+
+            <button type="button" class="btn-pay" id="btnCompletePayment" onclick="processPaymentAndRedirect()">
+                Pay Online & Confirm Order
+            </button>
+        </form>
     </div>
 </div>
 
 <script>
     let cart = [];
+    let selectedOrderItems = [];
+
+    const merchantNumber = "03711965637";
+
+    const translations = {
+        en: {
+            productsHeading: "Our Products",
+            p1Title: "Sank Magic Practice Copybook Set - 4 Books with Pen & 10 Refills",
+            p2Title: "Kids DIY Instant Digital Camera with Photo Printing (Random Color)",
+            buyNow: "Buy Now",
+            addToCart: "Add To Cart",
+            orderHeader: "Enter Delivery & Payment Details",
+            fullName: "Full Name *",
+            phone: "Phone / WhatsApp Number *",
+            address: "Full Delivery Address *",
+            paymentMethod: "Select Online Payment Method *",
+            cartTitle: "Your Cart Items",
+            cartTotal: "Total",
+            emptyCart: "Cart is empty",
+            payBtn: "Pay Online & Confirm Order"
+        },
+        ur: {
+            productsHeading: "ہماری پروڈکٹس",
+            p1Title: "سیٹ 4 کتب معہ پین اور 10 ریفلز - Sank Magic Practice Copybook",
+            p2Title: "بچوں کا ڈیجیٹل کیمرہ فوٹو پرنٹنگ کے ساتھ (مختلف رنگ)",
+            buyNow: "ابھی خریدیں",
+            addToCart: "کارٹ میں شامل کریں",
+            orderHeader: "ڈلیوری اور پیمنٹ کی تفصیلات درج کریں",
+            fullName: "پورا نام *",
+            phone: "فون / واٹس ایپ نمبر *",
+            address: "مکمل پتہ *",
+            paymentMethod: "آن لائن ادائیگی کا طریقہ منتخب کریں *",
+            cartTitle: "آپ کا کارٹ",
+            cartTotal: "کل رقم",
+            emptyCart: "کارٹ خالی ہے",
+            payBtn: "آن لائن ادا کریں اور آرڈر مکمل کریں"
+        }
+    };
+
+    function changeLanguage() {
+        let lang = document.getElementById("langSelector").value;
+        let t = translations[lang];
+
+        document.getElementById("txtProductsHeading").innerText = t.productsHeading;
+        document.getElementById("p1Title").innerText = t.p1Title;
+        document.getElementById("p2Title").innerText = t.p2Title;
+        
+        document.querySelectorAll(".btnBuyNowText").forEach(el => el.innerText = t.buyNow);
+        document.querySelectorAll(".btnAddCartText").forEach(el => el.innerText = t.addToCart);
+
+        document.getElementById("modalOrderHeader").innerText = t.orderHeader;
+        document.getElementById("lblFullName").innerText = t.fullName;
+        document.getElementById("lblPhone").innerText = t.phone;
+        document.getElementById("lblAddress").innerText = t.address;
+        document.getElementById("lblPayment").innerText = t.paymentMethod;
+
+        document.getElementById("btnCompletePayment").innerText = t.payBtn;
+        document.getElementById("lblCartTitle").innerText = t.cartTitle;
+        document.getElementById("lblCartTotal").innerText = t.cartTotal;
+        
+        updateCart();
+    }
 
     function changeImage(mainImgId, src, element) {
         document.getElementById(mainImgId).src = src;
@@ -340,7 +491,7 @@
     function addToCart(title, price) {
         cart.push({title, price});
         updateCart();
-        alert(title + ' added to cart!');
+        alert(title + ' has been added to your cart!');
     }
 
     function removeFromCart(index) {
@@ -349,12 +500,13 @@
     }
 
     function updateCart() {
+        let lang = document.getElementById("langSelector").value;
         document.getElementById('cartCount').innerText = cart.length;
         let container = document.getElementById('cartItemsContainer');
         let total = 0;
         
         if (cart.length === 0) {
-            container.innerHTML = 'Cart is empty';
+            container.innerHTML = translations[lang].emptyCart;
         } else {
             container.innerHTML = '';
             cart.forEach((item, index) => {
@@ -373,49 +525,49 @@
         modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
     }
 
+    function openCheckout(title, price) {
+        selectedOrderItems = [{title, price}];
+        document.getElementById('checkoutModal').style.display = 'flex';
+    }
+
+    function checkoutFromCart() {
+        if (cart.length === 0) {
+            alert("Your cart is empty!");
+            return;
+        }
+        selectedOrderItems = [...cart];
+        toggleCart();
+        document.getElementById('checkoutModal').style.display = 'flex';
+    }
+
+    function closeCheckout() {
+        document.getElementById('checkoutModal').style.display = 'none';
+    }
+
     function togglePaymentInfo() {
         var method = document.getElementById("paymentMethod").value;
         var paymentBox = document.getElementById("paymentDetails");
+        var payInstructions = document.getElementById("payInstructions");
+        var payBoxTitle = document.getElementById("payBoxTitle");
         
         if (method === "EasyPaisa") {
             paymentBox.style.display = "block";
-        } else {
-            paymentBox.style.display = "none";
-        }
-    }
-
-    function sendToWhatsApp() {
-        var whatsappNumber = "923711965637";
-
-        var name = document.getElementById("name").value;
-        var phone = document.getElementById("phone").value;
-        var address = document.getElementById("address").value;
-        var paymentMethod = document.getElementById("paymentMethod").value;
-
-        if (name === "" || phone === "" || address === "") {
-            alert("Meharbani karke tamam details fill karein!");
-            return;
-        }
-
-        let itemsList = cart.length > 0 
-            ? cart.map(i => i.title + " (Rs. " + i.price + ")").join(", ")
-            : "No items added to cart";
-
-        let totalAmount = cart.reduce((sum, item) => sum + item.price, 0);
-
-        var message = "*NEW ORDER DETAILS*%0A%0A" +
-            "*Items:* " + encodeURIComponent(itemsList) + "%0A" +
-            "*Total Amount:* Rs. " + totalAmount + "%0A" +
-            "*Name:* " + encodeURIComponent(name) + "%0A" +
-            "*Phone:* " + encodeURIComponent(phone) + "%0A" +
-            "*Address:* " + encodeURIComponent(address) + "%0A" +
-            "*Payment Method:* " + encodeURIComponent(paymentMethod);
-
-        var whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + message;
-        window.open(whatsappUrl, '_blank');
-    }
-</script>
-
-</body>
-    </html>
-    
+            payBoxTitle.innerText = "EasyPaisa Online Direct Payment Instructions";
+            payInstructions.innerHTML = `
+                <p><strong>Merchant Account:</strong> ${merchantNumber}</p>
+                <p><strong>How payment works:</strong></p>
+                <ol>
+                    <li>Enter your EasyPaisa Account Mobile Number above.</li>
+                    <li>Click <b>Pay Online & Confirm Order</b> button.</li>
+                    <li>You will receive a <b>Payment Request Prompt / Notification</b> inside your EasyPaisa App.</li>
+                    <li>Open EasyPaisa App, enter your MPIN to authorize payment to merchant account (<b>03711965637</b>).</li>
+                </ol>
+            `;
+        } else if (method === "JazzCash") {
+            paymentBox.style.display = "block";
+            payBoxTitle.innerText = "JazzCash Online Direct Payment Instructions";
+            payInstructions.innerHTML = `
+                <p><strong>Merchant Account:</strong> ${merchantNumber}</p>
+                <p><strong>How payment works:</strong></p>
+                <ol>
+                    <li>Ent
