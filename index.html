@@ -1,383 +1,420 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ur">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Deals PK | Sank Magic Practice Copybook</title>
+    <title>Smart Deals PK - Order Now</title>
     <style>
         * {
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
         body {
-            background-color: #f4f6f8;
-            color: #333;
+            background-color: #121212;
+            color: #ffffff;
+            padding: 20px;
         }
-
-        /* Header */
-        header {
-            background-color: #1a1a2e;
-            color: #fff;
-            padding: 15px 20px;
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        /* Container */
         .container {
-            max-width: 900px;
-            margin: 20px auto;
-            background: #fff;
+            max-width: 500px;
+            margin: 0 auto;
+            background: #1e1e1e;
             padding: 25px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
-
-        /* Product Section */
-        .product-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        @media (max-width: 768px) {
-            .product-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Image Gallery */
-        .gallery {
+        
+        /* Header & Cart Icon */
+        .header {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 20px;
+            color: #fff;
+        }
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 24px;
+        }
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background-color: #25D366;
+            color: #000;
+            font-weight: bold;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
         }
 
+        /* Product Card & Thumbnails */
+        .product-card {
+            background: #2a2a2a;
+            border: 1px solid #333;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
         .main-img {
             width: 100%;
-            height: 320px;
-            object-fit: contain;
-            border: 1px solid #e0e0e0;
             border-radius: 8px;
-            background-color: #fff;
+            max-height: 250px;
+            object-fit: cover;
         }
-
         .thumbnails {
             display: flex;
             gap: 10px;
+            margin: 10px 0;
         }
-
         .thumb {
-            width: 65px;
-            height: 65px;
-            object-fit: cover;
-            border: 2px solid #ddd;
-            border-radius: 6px;
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: 0.2s;
+            border: 2px solid transparent;
+            object-fit: cover;
         }
-
-        .thumb:hover, .thumb.active {
-            border-color: #f57224;
+        .thumb.active {
+            border-color: #25D366;
         }
-
-        /* Product Details */
         .product-title {
-            font-size: 22px;
-            font-weight: 600;
-            color: #212121;
-            margin-bottom: 10px;
-        }
-
-        .badge-discount {
-            background-color: #ffe8e8;
-            color: #d93025;
-            font-size: 13px;
-            font-weight: bold;
-            padding: 4px 10px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-bottom: 12px;
-            width: fit-content;
-        }
-
-        .price-section {
-            background-color: #fdf3ed;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        .current-price {
-            font-size: 26px;
-            font-weight: bold;
-            color: #f57224;
-        }
-
-        .original-price {
-            font-size: 15px;
-            color: #9e9e9e;
-            text-decoration: line-through;
-            margin-left: 8px;
-        }
-
-        /* Form Error Box */
-        .error-message {
-            display: none;
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 10px;
-            border: 1px solid #f5c6cb;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        /* Checkout Form */
-        .checkout-form {
-            margin-top: 20px;
-            border-top: 2px dashed #eee;
-            padding-top: 20px;
-        }
-
-        .form-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #1a1a2e;
-        }
-
-        .input-group {
-            margin-bottom: 12px;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: #555;
-        }
-
-        .input-group input, .input-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .input-group input:focus, .input-group textarea:focus {
-            border-color: #f57224;
-        }
-
-        /* Payment Notice */
-        .payment-box {
-            background-color: #e8f5e9;
-            border: 1px solid #c8e6c9;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            margin-bottom: 15px;
-        }
-
-        .payment-box h4 {
-            color: #2e7d32;
-            margin-bottom: 5px;
-            font-size: 15px;
-        }
-
-        .payment-box p {
-            font-size: 13px;
-            color: #333;
-            line-height: 1.5;
-        }
-
-        .payment-details {
-            font-weight: bold;
-            color: #1b5e20;
-            background: #fff;
-            padding: 8px;
-            border-radius: 4px;
-            margin-top: 6px;
-            display: inline-block;
-        }
-
-        /* Submit Button */
-        .btn-submit {
-            background-color: #25d366;
-            color: #fff;
-            border: none;
-            padding: 14px;
             font-size: 16px;
             font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.3s;
+            color: #fff;
+            margin-top: 10px;
+        }
+        .price-tag {
+            margin: 10px 0;
+        }
+        .discount-badge {
+            background-color: #e53935;
+            color: #fff;
+            padding: 2px 6px;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+        .product-price {
+            font-size: 18px;
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .original-price {
+            text-decoration: line-through;
+            color: #888;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+        .btn-add-cart {
             width: 100%;
-            text-align: center;
+            background-color: #2979ff;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
         }
 
-        .btn-submit:hover {
-            background-color: #1eb954;
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #ccc;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #444;
+            background-color: #2a2a2a;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+        
+        /* Payment Box */
+        .payment-box {
+            background: #1c3b2b;
+            border: 1px solid #25d366;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .payment-box h3 {
+            color: #25d366;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .payment-details {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #ddd;
+        }
+
+        /* Buttons */
+        .btn-whatsapp {
+            width: 100%;
+            background-color: #25D366;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .btn-whatsapp:hover {
+            background-color: #1ebc57;
+        }
+
+        /* Cart Modal */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .cart-content {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+        .remove-btn {
+            color: #ff5252;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .close-btn {
+            float: right;
+            cursor: pointer;
+            color: #888;
+            font-size: 20px;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        Smart Deals PK
-    </header>
-
-    <div class="container">
-        <div class="product-grid">
-            
-            <!-- Gallery Section -->
-            <div class="gallery">
-                <img id="featuredImage" class="main-img" src="https://ibb.co/Fk8Fxb14" alt="Sank Magic Copybook">
-                <div class="thumbnails">
-                    <img class="thumb active" src="https://ibb.co/Fk8Fxb14" onclick="changeImage(this.src, this)" alt="Thumb 1">
-                    <img class="thumb" src="https://ibb.co/sJpCGYVj" onclick="changeImage(this.src, this)" alt="Thumb 2">
-                </div>
-            </div>
-
-            <!-- Product Info Section -->
-            <div class="product-info">
-                <h1 class="product-title">Sank Magic Practice Copybook Set - 4 Books with Pen & 10 Refills</h1>
-                
-                <span class="badge-discount">30% OFF - Advance Payment Deal</span>
-
-                <div class="price-section">
-                    <span class="current-price">RS 500</span>
-                    <span class="original-price">RS 714</span>
-                </div>
-
-                <!-- Order Form -->
-                <div class="checkout-form">
-                    <div class="form-title">Enter Delivery Details</div>
-                    
-                    <div id="errorBox" class="error-message"></div>
-
-                    <div class="input-group">
-                        <label>Full Name *</label>
-                        <input type="text" id="custName" placeholder="e.g. Ali Ahmed" required>
-                    </div>
-
-                    <div class="input-group">
-                        <label>Phone / WhatsApp Number *</label>
-                        <input type="tel" id="custPhone" placeholder="03XXXXXXXXX" required>
-                    </div>
-
-                    <div class="input-group">
-                        <label>Full Delivery Address *</label>
-                        <textarea id="custAddress" rows="2" placeholder="House No, Street, Area, Sector" required></textarea>
-                    </div>
-
-                    <div class="input-group">
-                        <label>City *</label>
-                        <input type="text" id="custCity" placeholder="e.g. Lahore, Karachi" required>
-                    </div>
-
-                    <!-- Payment Details Box -->
-                    <div class="payment-box">
-                        <h4>💳 Advance Payment Required</h4>
-                        <p>Aapko RS 500 pehle Easypaisa par send karne honge. Payment ke baad order confirm ho jayega.</p>
-                        <div class="payment-details">
-                            Easypaisa Number: 03711965637 <br>
-                            Account Title: Smart Deals PK
-                        </div>
-                    </div>
-
-                    <button type="button" class="btn-submit" onclick="sendOrderToWhatsApp()">CONFIRM ORDER VIA WHATSAPP</button>
-                </div>
-
-            </div>
-
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <h1>Smart Deals PK</h1>
+        <div class="cart-icon" onclick="toggleCart()">
+            🛒 <span class="cart-badge" id="cartCount">0</span>
         </div>
     </div>
 
-    <script>
-        function changeImage(src, element) {
-            document.getElementById('featuredImage').src = src;
-            let thumbs = document.querySelectorAll('.thumb');
-            thumbs.forEach(thumb => thumb.classList.remove('active'));
-            element.classList.add('active');
+    <h2>Our Products</h2>
+    <br>
+
+    <!-- Product 1 -->
+    <div class="product-card">
+        <img id="mainImg1" src="https://i.ibb.co/G4bBTKtK/image1.jpg" class="main-img" alt="Sank Magic Copybook">
+        <div class="thumbnails">
+            <img src="https://i.ibb.co/G4bBTKtK/image1.jpg" class="thumb active" onclick="changeImage('mainImg1', this.src, this)">
+            <img src="https://i.ibb.co/N6GfYySv/image2.jpg" class="thumb" onclick="changeImage('mainImg1', this.src, this)">
+        </div>
+        <div class="product-title">Sank Magic Practice Copybook Set - 4 Books with Pen & 10 Refills</div>
+        <div class="price-tag">
+            <span class="discount-badge">30% OFF</span>
+            <span class="product-price">Rs. 500</span>
+            <span class="original-price">Rs. 714</span>
+        </div>
+        <button class="btn-add-cart" onclick="addToCart('Sank Magic Practice Copybook Set', 500)">Add To Cart</button>
+    </div>
+
+    <!-- Product 2 -->
+    <div class="product-card">
+        <img id="mainImg2" src="https://i.ibb.co/Rpj3P9Tn/cam1.jpg" class="main-img" alt="Kids DIY Digital Camera">
+        <div class="thumbnails">
+            <img src="https://i.ibb.co/Rpj3P9Tn/cam1.jpg" class="thumb active" onclick="changeImage('mainImg2', this.src, this)">
+            <img src="https://i.ibb.co/dw1gTTJM/cam2.jpg" class="thumb" onclick="changeImage('mainImg2', this.src, this)">
+            <img src="https://i.ibb.co/WvhZzHxC/cam3.jpg" class="thumb" onclick="changeImage('mainImg2', this.src, this)">
+        </div>
+        <div class="product-title">Kids DIY Instant Digital Camera with Photo Printing (Random Color)</div>
+        <div class="price-tag">
+            <span class="discount-badge">50% OFF</span>
+            <span class="product-price">Rs. 3,500</span>
+            <span class="original-price">Rs. 7,000</span>
+        </div>
+        <button class="btn-add-cart" onclick="addToCart('Kids DIY Instant Digital Camera', 3500)">Add To Cart</button>
+    </div>
+
+    <!-- Order Form -->
+    <h2 style="margin-top: 30px;">Complete Your Order</h2>
+    <br>
+    <form id="orderForm">
+        <div class="form-group">
+            <label>Aap Ka Naam (Full Name):</label>
+            <input type="text" id="name" placeholder="e.g. Nalain" required>
+        </div>
+
+        <div class="form-group">
+            <label>Phone / WhatsApp Number:</label>
+            <input type="tel" id="phone" placeholder="03XXXXXXXXX" required>
+        </div>
+
+        <div class="form-group">
+            <label>Complete Address (Ghar ka pata):</label>
+            <textarea id="address" rows="3" placeholder="House #, Street #, Area, City" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Payment Method:</label>
+            <select id="paymentMethod" onchange="togglePaymentInfo()">
+                <option value="Cash on Delivery">Cash on Delivery (COD)</option>
+                <option value="EasyPaisa">EasyPaisa</option>
+            </select>
+        </div>
+
+        <!-- EasyPaisa Account Box -->
+        <div class="payment-box" id="paymentDetails" style="display: none;">
+            <h3>EasyPaisa Payment Details:</h3>
+            <div class="payment-details">
+                <p><strong>EasyPaisa Number:</strong> 03711965637</p>
+                <p><strong>Account Title:</strong> Smart Deals PK</p>
+                <p><strong>Advance Payment:</strong> Rs. 500 Pehle send karne honge.</p>
+                <p style="margin-top: 5px; color: #ffab91; font-size: 12px;">* Payment bhejney ke baad screenshot WhatsApp par zaroor send karein.</p>
+            </div>
+        </div>
+
+        <button type="button" class="btn-whatsapp" onclick="sendToWhatsApp()">
+            Confirm Order Via WhatsApp
+        </button>
+    </form>
+</div>
+
+<!-- Cart Modal -->
+<div class="cart-modal" id="cartModal">
+    <div class="cart-content">
+        <span class="close-btn" onclick="toggleCart()">&times;</span>
+        <h3>Your Cart Items</h3>
+        <br>
+        <div id="cartItemsContainer">Empty</div>
+        <br>
+        <h4>Total: Rs. <span id="cartTotal">0</span></h4>
+    </div>
+</div>
+
+<script>
+    let cart = [];
+
+    function changeImage(mainImgId, src, element) {
+        document.getElementById(mainImgId).src = src;
+        let thumbs = element.parentElement.getElementsByClassName('thumb');
+        for(let t of thumbs) { t.classList.remove('active'); }
+        element.classList.add('active');
+    }
+
+    function addToCart(title, price) {
+        cart.push({title, price});
+        updateCart();
+        alert(title + ' added to cart!');
+    }
+
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCart();
+    }
+
+    function updateCart() {
+        document.getElementById('cartCount').innerText = cart.length;
+        let container = document.getElementById('cartItemsContainer');
+        let total = 0;
+        
+        if (cart.length === 0) {
+            container.innerHTML = 'Cart is empty';
+        } else {
+            container.innerHTML = '';
+            cart.forEach((item, index) => {
+                total += item.price;
+                container.innerHTML += `<div class="cart-item">
+                    <span>${item.title} - <b>Rs. ${item.price}</b></span>
+                    <span class="remove-btn" onclick="removeFromCart(${index})">✕</span>
+                </div>`;
+            });
+        }
+        document.getElementById('cartTotal').innerText = total;
+    }
+
+    function toggleCart() {
+        let modal = document.getElementById('cartModal');
+        modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function togglePaymentInfo() {
+        var method = document.getElementById("paymentMethod").value;
+        var paymentBox = document.getElementById("paymentDetails");
+        
+        if (method === "EasyPaisa") {
+            paymentBox.style.display = "block";
+        } else {
+            paymentBox.style.display = "none";
+        }
+    }
+
+    function sendToWhatsApp() {
+        var whatsappNumber = "923711965637";
+
+        var name = document.getElementById("name").value;
+        var phone = document.getElementById("phone").value;
+        var address = document.getElementById("address").value;
+        var paymentMethod = document.getElementById("paymentMethod").value;
+
+        if (name === "" || phone === "" || address === "") {
+            alert("Meharbani karke tamam details fill karein!");
+            return;
         }
 
-        // Pakistani Mobile Number Validation (03xxxxxxxxx or 923xxxxxxxxx)
-        function isValidPakistaniPhone(phone) {
-            const cleanPhone = phone.replace(/[\s-]/g, ''); // spaces/dashes remove karne k liye
-            const phoneRegex = /^(\+92|92|0)?3\d{9}$/;
-            return phoneRegex.test(cleanPhone);
-        }
+        let itemsList = cart.length > 0 
+            ? cart.map(i => i.title + " (Rs. " + i.price + ")").join(", ")
+            : "No items added to cart";
 
-        function sendOrderToWhatsApp() {
-            const sellerWhatsApp = "923711965637"; 
-            const errorBox = document.getElementById('errorBox');
+        let totalAmount = cart.reduce((sum, item) => sum + item.price, 0);
 
-            const name = document.getElementById('custName').value.trim();
-            const phone = document.getElementById('custPhone').value.trim();
-            const address = document.getElementById('custAddress').value.trim();
-            const city = document.getElementById('custCity').value.trim();
+        var message = "*NEW ORDER DETAILS*%0A%0A" +
+            "*Items:* " + encodeURIComponent(itemsList) + "%0A" +
+            "*Total Amount:* Rs. " + totalAmount + "%0A" +
+            "*Name:* " + encodeURIComponent(name) + "%0A" +
+            "*Phone:* " + encodeURIComponent(phone) + "%0A" +
+            "*Address:* " + encodeURIComponent(address) + "%0A" +
+            "*Payment Method:* " + encodeURIComponent(paymentMethod);
 
-            errorBox.style.display = 'none';
-            errorBox.innerText = '';
-
-            // 1. Basic Empty Check
-            if (!name || !phone || !address || !city) {
-                showError('Please fill in all the required details.');
-                return;
-            }
-
-            // 2. Phone Number Format Check
-            if (!isValidPakistaniPhone(phone)) {
-                showError('⚠️ Invalid Phone Number! Please enter a valid 11-digit Pakistani mobile number (e.g., 03001234567).');
-                return;
-            }
-
-            // 3. Address Quality Check
-            if (address.length < 10) {
-                showError('⚠️ Address too short! Please provide a complete delivery address (House No, Street, Area).');
-                return;
-            }
-
-            if (city.length < 3) {
-                showError('⚠️ Please enter a valid City name.');
-                return;
-            }
-
-            // Constructing WhatsApp message
-            const message = `*NEW ORDER - SMART DEALS PK*%0A` +
-                            `----------------------------------%0A` +
-                            `*Item:* Sank Magic Copybook Set (4 Books + Pen + 10 Refills)%0A` +
-                            `*Total Price:* RS 500%0A%0A` +
-                            `*CUSTOMER DETAILS:*%0A` +
-                            `*Name:* ${encodeURIComponent(name)}%0A` +
-                            `*Phone:* ${encodeURIComponent(phone)}%0A` +
-                            `*Address:* ${encodeURIComponent(address)}%0A` +
-                            `*City:* ${encodeURIComponent(city)}%0A%0A` +
-                            `*Payment Method:* Easypaisa Advance%0A` +
-                            `----------------------------------%0A` +
-                            `I have filled the details and will send the payment screenshot shortly.`;
-
-            const whatsappURL = `https://wa.me/${sellerWhatsApp}?text=${message}`;
-            window.open(whatsappURL, '_blank');
-        }
-
-        function showError(msg) {
-            const errorBox = document.getElementById('errorBox');
-            errorBox.innerText = msg;
-            errorBox.style.display = 'block';
-            errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-    </script>
+        var whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + message;
+        window.open(whatsappUrl, '_blank');
+    }
+</script>
 
 </body>
     </html>
