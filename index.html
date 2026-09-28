@@ -130,8 +130,6 @@
             cursor: pointer;
             font-size: 14px;
             box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
-            position: relative;
-            z-index: 10;
         }
         .btn-cart {
             flex: 1;
@@ -144,8 +142,6 @@
             cursor: pointer;
             font-size: 14px;
             box-shadow: 0 4px 12px rgba(41, 121, 255, 0.3);
-            position: relative;
-            z-index: 10;
         }
         
         /* Floating Cart */
@@ -164,7 +160,7 @@
             font-size: 24px;
             cursor: pointer;
             box-shadow: 0 6px 20px rgba(0, 230, 118, 0.4);
-            z-index: 99;
+            z-index: 999;
         }
         .cart-badge {
             position: absolute;
@@ -179,7 +175,7 @@
         }
 
         /* Modals */
-        .modal {
+        .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -187,8 +183,11 @@
             backdrop-filter: blur(5px);
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 10000;
             padding: 15px;
+        }
+        .modal-overlay.active {
+            display: flex !important;
         }
         .modal-content {
             background: #181b26;
@@ -199,9 +198,12 @@
             max-height: 90vh;
             overflow-y: auto;
             border: 1px solid #2d3348;
+            position: relative;
         }
         .close-btn {
-            float: right;
+            position: absolute;
+            top: 15px;
+            right: 15px;
             font-size: 24px;
             cursor: pointer;
             color: #94a3b8;
@@ -286,7 +288,8 @@
             text-align: right;
         }
         .rtl .close-btn {
-            float: left;
+            left: 15px;
+            right: auto;
         }
     </style>
 </head>
@@ -295,7 +298,7 @@
 <div class="container">
     <div class="header">
         <h2 class="brand-title">Smart Deals PK</h2>
-        <select class="lang-select" id="langSelector" onchange="switchLanguage()">
+        <select class="lang-select" id="langSelector">
             <option value="en">⚡ English</option>
             <option value="ur">🇵🇰 اردو</option>
         </select>
@@ -315,8 +318,8 @@
             <span class="original-price">Rs. 714</span>
         </div>
         <div class="btn-group">
-            <button class="btn-buy btnBuyText" onclick="buyDirect(1)">Buy Now</button>
-            <button class="btn-cart btnCartText" onclick="addCartItem(1)">Add To Cart</button>
+            <button type="button" class="btn-buy btnBuyText" onclick="buyDirect(1)">Buy Now</button>
+            <button type="button" class="btn-cart btnCartText" onclick="addCartItem(1)">Add To Cart</button>
         </div>
     </div>
 
@@ -335,8 +338,8 @@
             <span class="original-price">Rs. 7,000</span>
         </div>
         <div class="btn-group">
-            <button class="btn-buy btnBuyText" onclick="buyDirect(2)">Buy Now</button>
-            <button class="btn-cart btnCartText" onclick="addCartItem(2)">Add To Cart</button>
+            <button type="button" class="btn-buy btnBuyText" onclick="buyDirect(2)">Buy Now</button>
+            <button type="button" class="btn-cart btnCartText" onclick="addCartItem(2)">Add To Cart</button>
         </div>
     </div>
 </div>
@@ -347,7 +350,7 @@
 </div>
 
 <!-- Cart Modal -->
-<div class="modal" id="cartModal">
+<div class="modal-overlay" id="cartModal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal('cartModal')">&times;</span>
         <h3 id="cartHeaderTitle" style="color: #00E676;">Shopping Cart</h3>
@@ -359,12 +362,12 @@
             <span style="color: #00E676;">Rs. <span id="cTotal">0</span></span>
         </h4>
         <br>
-        <button class="btn-buy" id="btnProceedCart" style="width: 100%;" onclick="checkoutCart()">Proceed to Checkout</button>
+        <button type="button" class="btn-buy" id="btnProceedCart" style="width: 100%;" onclick="checkoutCart()">Proceed to Checkout</button>
     </div>
 </div>
 
-<!-- Checkout & Payment Modal -->
-<div class="modal" id="checkoutModal">
+<!-- Checkout Modal -->
+<div class="modal-overlay" id="checkoutModal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal('checkoutModal')">&times;</span>
         <h3 id="checkoutHeaderTitle" style="color:#FF9800; margin-bottom:12px;">Checkout Details</h3>
@@ -391,13 +394,13 @@
                 </select>
             </div>
 
-            <!-- Cool Payment Instruction Box -->
+            <!-- Cool Payment Box -->
             <div class="cool-note-box" id="payBox" style="display:none;">
                 <div class="note-header" id="pBoxTitle">⚡ Quick Payment Steps</div>
                 <div class="note-text" id="pBoxDesc"></div>
                 <div class="form-group" style="margin-top: 12px; margin-bottom: 0;">
-                    <label id="lbl5" style="color:#00E676;">EasyPaisa Account / Phone Number *</label>
-                    <input type="tel" id="accountNum" placeholder="03XXXXXXXXX" required>
+                    <label id="lbl5" style="color:#00E676;">Account / Phone Number *</label>
+                    <input type="tel" id="accountNum" placeholder="03XXXXXXXXX">
                 </div>
             </div>
 
@@ -462,6 +465,8 @@
         }
     };
 
+    document.getElementById('langSelector').addEventListener('change', switchLanguage);
+
     function setImg(id, el) {
         document.getElementById(id).src = el.src;
         let thumbs = el.parentElement.getElementsByClassName('thumb');
@@ -494,7 +499,7 @@
             });
         }
         document.getElementById('cTotal').innerText = total;
-        document.getElementById('cartModal').style.display = 'flex';
+        document.getElementById('cartModal').classList.add('active');
     }
 
     function checkoutCart() {
@@ -505,18 +510,18 @@
         }
         currentOrder = [...cart];
         closeModal('cartModal');
-        document.getElementById('checkoutModal').style.display = 'flex';
+        document.getElementById('checkoutModal').classList.add('active');
     }
 
     function buyDirect(productId) {
         let lang = document.getElementById('langSelector').value;
         let p = productData[productId];
         currentOrder = [{id: productId, title: p[lang], price: p.price}];
-        document.getElementById('checkoutModal').style.display = 'flex';
+        document.getElementById('checkoutModal').classList.add('active');
     }
 
     function closeModal(id) {
-        document.getElementById(id).style.display = 'none';
+        document.getElementById(id).classList.remove('active');
     }
 
     function renderPaymentBox() {
@@ -534,7 +539,7 @@
                 desc.innerHTML = `
                     کل رقم <b style="color:#FF9800;">Rs. ${total}</b> درج ذیل اکاؤنٹ پر منتقل کریں:<br>
                     <div class="acc-highlight">03711965637</div><br>
-                    اپنا ${m} اکاؤنٹ نمبر درج کریں، آرڈر کنفرم ہوتے ہی EasyPaisa Web / WhatsApp par Redirect ho jayega!
+                    اپنا ${m} اکاؤنٹ نمبر درج کریں، آرڈر کنفرم ہوتے ہی EasyPaisa / WhatsApp par Redirect ho jayega!
                 `;
             } else {
                 document.getElementById('pBoxTitle').innerText = '⚡ ' + m + ' Payment Instructions';
@@ -563,7 +568,4 @@
         let msg = "*NEW ONLINE ORDER*%0A%0A" +
             "*Items:* " + encodeURIComponent(items) + "%0A" +
             "*Total Amount:* Rs. " + total + "%0A" +
-            "*Name:* " + encodeURIComponent(name) + "%0A" +
-            "*Phone:* " + encodeURIComponent(phone) + "%0A" +
-            "*Address:* " + encodeURIComponent(address) + "%0A" +
-            "*Pa
+         
