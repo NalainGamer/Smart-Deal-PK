@@ -127,21 +127,14 @@
             border-radius: 8px;
             cursor: pointer;
             font-size: 14px;
-            transition: transform 0.1s ease;
-        }
-        .btn-buy:active, .btn-cart:active {
-            transform: scale(0.97);
         }
         .btn-buy {
             background: linear-gradient(135deg, #FF9800, #F57C00);
-            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
         }
         .btn-cart {
             background: linear-gradient(135deg, #2979ff, #1565c0);
-            box-shadow: 0 4px 12px rgba(41, 121, 255, 0.3);
         }
         
-        /* Floating Cart */
         .floating-cart {
             position: fixed;
             bottom: 20px;
@@ -156,8 +149,7 @@
             justify-content: center;
             font-size: 24px;
             cursor: pointer;
-            box-shadow: 0 6px 20px rgba(0, 230, 118, 0.4);
-            z-index: 999;
+            z-index: 99;
         }
         .cart-badge {
             position: absolute;
@@ -171,7 +163,6 @@
             padding: 3px 7px;
         }
 
-        /* Modals */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -180,7 +171,7 @@
             backdrop-filter: blur(4px);
             justify-content: center;
             align-items: center;
-            z-index: 10000;
+            z-index: 1000;
             padding: 15px;
         }
         .modal-overlay.active {
@@ -226,23 +217,13 @@
             font-size: 14px;
             outline: none;
         }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            border-color: #00E676;
-        }
 
-        /* Note Box */
         .cool-note-box {
             background: #0e2a1f;
             border: 1px solid #00E676;
             padding: 14px;
             border-radius: 10px;
             margin: 15px 0;
-        }
-        .note-header {
-            color: #00E676;
-            font-size: 15px;
-            font-weight: 800;
-            margin-bottom: 8px;
         }
         .acc-highlight {
             background: #00E676;
@@ -264,17 +245,6 @@
             font-weight: 800;
             border-radius: 8px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3);
-            text-transform: uppercase;
-        }
-        
-        .rtl {
-            direction: rtl;
-            text-align: right;
-        }
-        .rtl .close-btn {
-            left: 15px;
-            right: auto;
         }
     </style>
 </head>
@@ -293,8 +263,8 @@
     <div class="product-card">
         <img id="img1" src="https://i.ibb.co/G4bBTKtK/image1.jpg" class="main-img">
         <div class="thumbnails">
-            <img src="https://i.ibb.co/G4bBTKtK/image1.jpg" class="thumb active" onclick="changeImage('img1', this)">
-            <img src="https://i.ibb.co/N6GfYySv/image2.jpg" class="thumb" onclick="changeImage('img1', this)">
+            <img src="https://i.ibb.co/G4bBTKtK/image1.jpg" class="thumb active" data-target="img1">
+            <img src="https://i.ibb.co/N6GfYySv/image2.jpg" class="thumb" data-target="img1">
         </div>
         <div class="product-title" id="t1">Sank Magic Practice Copybook Set - 4 Books with Pen & 10 Refills</div>
         <div class="price-tag">
@@ -303,8 +273,8 @@
             <span class="original-price">Rs. 714</span>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn-buy btnBuyText" onclick="handleBuyNow(1)">Buy Now</button>
-            <button type="button" class="btn-cart btnCartText" onclick="handleAddToCart(1)">Add To Cart</button>
+            <button type="button" class="btn-buy" id="buyBtn1">Buy Now</button>
+            <button type="button" class="btn-cart" id="cartBtn1">Add To Cart</button>
         </div>
     </div>
 
@@ -312,9 +282,9 @@
     <div class="product-card">
         <img id="img2" src="https://i.ibb.co/Rpj3P9Tn/cam1.jpg" class="main-img">
         <div class="thumbnails">
-            <img src="https://i.ibb.co/Rpj3P9Tn/cam1.jpg" class="thumb active" onclick="changeImage('img2', this)">
-            <img src="https://i.ibb.co/dw1gTTJM/cam2.jpg" class="thumb" onclick="changeImage('img2', this)">
-            <img src="https://i.ibb.co/WvhZzHxC/cam3.jpg" class="thumb" onclick="changeImage('img2', this)">
+            <img src="https://i.ibb.co/Rpj3P9Tn/cam1.jpg" class="thumb active" data-target="img2">
+            <img src="https://i.ibb.co/dw1gTTJM/cam2.jpg" class="thumb" data-target="img2">
+            <img src="https://i.ibb.co/WvhZzHxC/cam3.jpg" class="thumb" data-target="img2">
         </div>
         <div class="product-title" id="t2">Kids DIY Instant Digital Camera with Photo Printing (Random Color)</div>
         <div class="price-tag">
@@ -323,55 +293,54 @@
             <span class="original-price">Rs. 7,000</span>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn-buy btnBuyText" onclick="handleBuyNow(2)">Buy Now</button>
-            <button type="button" class="btn-cart btnCartText" onclick="handleAddToCart(2)">Add To Cart</button>
+            <button type="button" class="btn-buy" id="buyBtn2">Buy Now</button>
+            <button type="button" class="btn-cart" id="cartBtn2">Add To Cart</button>
         </div>
     </div>
 </div>
 
-<!-- Floating Cart Button -->
-<div class="floating-cart" id="cartBtnFloat" onclick="showCartModal()">
+<div class="floating-cart" id="floatingCart">
     🛒 <span class="cart-badge" id="cCount">0</span>
 </div>
 
 <!-- Cart Modal -->
 <div class="modal-overlay" id="cartModal">
     <div class="modal-content">
-        <span class="close-btn" onclick="hideModal('cartModal')">&times;</span>
-        <h3 id="cartHeaderTitle" style="color: #00E676;">Shopping Cart</h3>
+        <span class="close-btn" id="closeCart">&times;</span>
+        <h3 style="color: #00E676;">Shopping Cart</h3>
         <br>
         <div id="cartList" style="color: #94a3b8;">Cart is empty</div>
         <br>
         <h4 style="display:flex; justify-content:space-between; border-top:1px solid #2d3348; padding-top:10px;">
-            <span id="cartTotalText">Total</span>
+            <span>Total</span>
             <span style="color: #00E676;">Rs. <span id="cTotal">0</span></span>
         </h4>
         <br>
-        <button type="button" class="btn-buy" id="btnProceedCart" style="width: 100%;" onclick="proceedToCheckout()">Proceed to Checkout</button>
+        <button type="button" class="btn-buy" id="btnProceedCart" style="width: 100%;">Proceed to Checkout</button>
     </div>
 </div>
 
 <!-- Checkout Modal -->
 <div class="modal-overlay" id="checkoutModal">
     <div class="modal-content">
-        <span class="close-btn" onclick="hideModal('checkoutModal')">&times;</span>
-        <h3 id="checkoutHeaderTitle" style="color:#FF9800; margin-bottom:12px;">Checkout Details</h3>
+        <span class="close-btn" id="closeCheckout">&times;</span>
+        <h3 style="color:#FF9800; margin-bottom:12px;">Checkout Details</h3>
 
         <form id="orderForm">
             <div class="form-group">
-                <label id="lbl1">Full Name *</label>
+                <label>Full Name *</label>
                 <input type="text" id="custName" placeholder="e.g. Nalain" required>
             </div>
             <div class="form-group">
-                <label id="lbl2">Phone / WhatsApp Number *</label>
+                <label>Phone / WhatsApp Number *</label>
                 <input type="tel" id="custPhone" placeholder="03XXXXXXXXX" required>
             </div>
             <div class="form-group">
-                <label id="lbl3">Full Delivery Address *</label>
+                <label>Full Delivery Address *</label>
                 <textarea id="custAddress" rows="2" placeholder="House #, Street #, City" required></textarea>
             </div>
             <div class="form-group">
-                <label id="lbl4">Select Online Payment Method *</label>
+                <label>Select Online Payment Method *</label>
                 <select id="payMethod" required>
                     <option value="">-- Choose Payment --</option>
                     <option value="EasyPaisa">EasyPaisa</option>
@@ -379,172 +348,118 @@
                 </select>
             </div>
 
-            <!-- Payment Box -->
             <div class="cool-note-box" id="payBox" style="display:none;">
-                <div class="note-header" id="pBoxTitle">⚡ Payment Instructions</div>
+                <div style="color:#00E676; font-weight:800; margin-bottom:8px;">⚡ Payment Instructions</div>
                 <div style="color: #cbd5e1; font-size: 13px;" id="pBoxDesc"></div>
                 <div class="form-group" style="margin-top: 12px; margin-bottom: 0;">
-                    <label id="lbl5" style="color:#00E676;">Account / Phone Number *</label>
+                    <label style="color:#00E676;">Account / Phone Number *</label>
                     <input type="tel" id="accountNum" placeholder="03XXXXXXXXX">
                 </div>
             </div>
 
-            <button type="submit" class="btn-confirm" id="btnSubmit">Pay & Complete Order</button>
+            <button type="submit" class="btn-confirm">Pay & Complete Order</button>
         </form>
     </div>
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", function() {
     let cart = [];
     let activeOrder = [];
 
     const productData = {
-        1: {
-            en: "Sank Magic Practice Copybook Set - 4 Books with Pen & 10 Refills",
-            ur: "Sank Magic Copybook Set - 4 کتابیں، 1 پین اور 10 ریفلز",
-            price: 500
-        },
-        2: {
-            en: "Kids DIY Instant Digital Camera with Photo Printing (Random Color)",
-            ur: "بچوں کا ڈیجیٹل پرنٹنگ کیمرہ (مختلف رنگ)",
-            price: 3500
-        }
+        1: { title: "Sank Magic Practice Copybook Set - 4 Books with Pen & 10 Refills", price: 500 },
+        2: { title: "Kids DIY Instant Digital Camera with Photo Printing (Random Color)", price: 3500 }
     };
 
-    const translations = {
-        en: {
-            disc1: "30% OFF",
-            disc2: "50% OFF",
-            buyBtn: "Buy Now",
-            cartBtn: "Add To Cart",
-            cartHeader: "Shopping Cart",
-            cartEmpty: "Cart is empty",
-            cartTotal: "Total Amount",
-            proceedBtn: "Proceed to Checkout",
-            checkoutHeader: "Checkout Details",
-            lbl1: "Full Name *",
-            lbl2: "Phone / WhatsApp Number *",
-            lbl3: "Full Delivery Address *",
-            lbl4: "Select Online Payment Method *",
-            lbl5: "Account / Phone Number *",
-            btnSubmit: "Pay & Complete Order",
-            addedMsg: " added to cart!"
-        },
-        ur: {
-            disc1: "30% چھوٹ",
-            disc2: "50% چھوٹ",
-            buyBtn: "ابھی خریدیں",
-            cartBtn: "کارٹ میں شامل کریں",
-            cartHeader: "آپ کا کارٹ",
-            cartEmpty: "کارٹ خالی ہے",
-            cartTotal: "کل رقم",
-            proceedBtn: "آرڈر مکمل کریں",
-            checkoutHeader: "ڈلیوری اور پیمنٹ کی تفصیلات",
-            lbl1: "پورا نام *",
-            lbl2: "فون / واٹس ایپ نمبر *",
-            lbl3: "مکمل پتہ *",
-            lbl4: "آن لائن ادائیگی کا طریقہ منتخب کریں *",
-            lbl5: "ایزی پیسہ / بھیجنے والا نمبر *",
-            btnSubmit: "ادائیگی کریں اور آرڈر واٹس ایپ کریں",
-            addedMsg: " کارٹ میں شامل کر دیا گیا ہے!"
-        }
-    };
+    // Thumbnail Clicks
+    document.querySelectorAll('.thumb').forEach(thumb => {
+        thumb.addEventListener('click', function() {
+            let targetId = this.getAttribute('data-target');
+            document.getElementById(targetId).src = this.src;
+            this.parentElement.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
 
-    // Language switch listener
-    document.getElementById('langSelector').addEventListener('change', updateLanguage);
+    // Add To Cart Buttons
+    document.getElementById('cartBtn1').addEventListener('click', () => addToCart(1));
+    document.getElementById('cartBtn2').addEventListener('click', () => addToCart(2));
 
-    // Payment method selector listener
-    document.getElementById('payMethod').addEventListener('change', updatePaymentDetails);
+    // Buy Now Buttons
+    document.getElementById('buyBtn1').addEventListener('click', () => buyNow(1));
+    document.getElementById('buyBtn2').addEventListener('click', () => buyNow(2));
 
-    // Form submission listener
-    document.getElementById('orderForm').addEventListener('submit', sendOrderToWhatsApp);
+    // Modals Open/Close
+    document.getElementById('floatingCart').addEventListener('click', openCart);
+    document.getElementById('closeCart').addEventListener('click', () => closeModal('cartModal'));
+    document.getElementById('closeCheckout').addEventListener('click', () => closeModal('checkoutModal'));
+    document.getElementById('btnProceedCart').addEventListener('click', proceedCheckout);
 
-    function changeImage(mainImgId, element) {
-        document.getElementById(mainImgId).src = element.src;
-        let thumbs = element.parentElement.getElementsByClassName('thumb');
-        for (let t of thumbs) {
-            t.classList.remove('active');
-        }
-        element.classList.add('active');
-    }
-
-    function handleAddToCart(id) {
-        let lang = document.getElementById('langSelector').value;
-        let item = productData[id];
-        cart.push({ id: id, title: item[lang], price: item.price });
+    function addToCart(id) {
+        cart.push(productData[id]);
         document.getElementById('cCount').innerText = cart.length;
-        alert(item[lang] + translations[lang].addedMsg);
+        alert(productData[id].title + " added to cart!");
     }
 
-    function showCartModal() {
-        let lang = document.getElementById('langSelector').value;
-        let cartListDiv = document.getElementById('cartList');
+    function buyNow(id) {
+        activeOrder = [productData[id]];
+        document.getElementById('checkoutModal').classList.add('active');
+        updatePaymentDetails();
+    }
+
+    function openCart() {
+        let listDiv = document.getElementById('cartList');
         let total = 0;
 
         if (cart.length === 0) {
-            cartListDiv.innerHTML = translations[lang].cartEmpty;
+            listDiv.innerHTML = "Cart is empty";
         } else {
-            cartListDiv.innerHTML = '';
-            cart.forEach((item) => {
+            listDiv.innerHTML = '';
+            cart.forEach(item => {
                 total += item.price;
-                cartListDiv.innerHTML += `
-                    <div style="display:flex; justify-content:space-between; margin-bottom:8px; color:#fff;">
-                        <span>${item.title}</span>
-                        <b style="color:#00E676;">Rs. ${item.price}</b>
-                    </div>`;
+                listDiv.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                    <span>${item.title}</span>
+                    <b style="color:#00E676;">Rs. ${item.price}</b>
+                </div>`;
             });
         }
         document.getElementById('cTotal').innerText = total;
         document.getElementById('cartModal').classList.add('active');
     }
 
-    function proceedToCheckout() {
-        let lang = document.getElementById('langSelector').value;
+    function proceedCheckout() {
         if (cart.length === 0) {
-            alert(translations[lang].cartEmpty);
+            alert("Cart is empty!");
             return;
         }
         activeOrder = [...cart];
-        hideModal('cartModal');
+        closeModal('cartModal');
         document.getElementById('checkoutModal').classList.add('active');
         updatePaymentDetails();
     }
 
-    function handleBuyNow(id) {
-        let lang = document.getElementById('langSelector').value;
-        let item = productData[id];
-        activeOrder = [{ id: id, title: item[lang], price: item.price }];
-        document.getElementById('checkoutModal').classList.add('active');
-        updatePaymentDetails();
+    function closeModal(id) {
+        document.getElementById(id).classList.remove('active');
     }
 
-    function hideModal(modalId) {
-        document.getElementById(modalId).classList.remove('active');
-    }
+    document.getElementById('payMethod').addEventListener('change', updatePaymentDetails);
 
     function updatePaymentDetails() {
         let method = document.getElementById('payMethod').value;
         let box = document.getElementById('payBox');
-        let lang = document.getElementById('langSelector').value;
         let desc = document.getElementById('pBoxDesc');
 
         if (method === "EasyPaisa" || method === "JazzCash") {
             box.style.display = 'block';
             let total = activeOrder.reduce((sum, item) => sum + item.price, 0);
-
-            if (lang === 'ur') {
-                document.getElementById('pBoxTitle').innerText = '⚡ ' + method + ' ادائیگی کی ہدایات';
-                desc.innerHTML = `کل رقم <b style="color:#FF9800;">Rs. ${total}</b> اس نمبر پر منتقل کریں:<br><div class="acc-highlight">03711965637</div>`;
-            } else {
-                document.getElementById('pBoxTitle').innerText = '⚡ ' + method + ' Payment Instructions';
-                desc.innerHTML = `Transfer total <b style="color:#FF9800;">Rs. ${total}</b> to official account:<br><div class="acc-highlight">03711965637</div>`;
-            }
+            desc.innerHTML = `Transfer total <b style="color:#FF9800;">Rs. ${total}</b> to official account:<br><div class="acc-highlight">03711965637</div>`;
         } else {
             box.style.display = 'none';
         }
     }
 
-    function sendOrderToWhatsApp(e) {
+    document.getElementById('orderForm').addEventListener('submit', function(e) {
         e.preventDefault();
         let name = document.getElementById('custName').value;
         let phone = document.getElementById('custPhone').value;
@@ -561,4 +476,14 @@
             "*Name:* " + encodeURIComponent(name) + "%0A" +
             "*Phone:* " + encodeURIComponent(phone) + "%0A" +
             "*Address:* " + encodeURIComponent(address) + "%0A" +
-            "*Payment Method:* " + encod
+            "*Payment Method:* " + encodeURIComponent(method) + "%0A" +
+            "*Sender Account:* " + encodeURIComponent(accNum);
+
+        window.location.href = "https://wa.me/923711965637?text=" + message;
+    });
+});
+</script>
+
+</body>
+    </html>
+    
