@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ur">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +15,7 @@
             background-color: #121212;
             color: #ffffff;
             padding: 20px;
+            padding-bottom: 80px;
         }
         .container {
             max-width: 500px;
@@ -25,7 +26,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         
-        /* Header & Cart Icon */
+        /* Header & Language Switcher */
         .header {
             display: flex;
             justify-content: space-between;
@@ -38,20 +39,43 @@
             font-size: 20px;
             color: #fff;
         }
-        .cart-icon {
-            position: relative;
+        .lang-select {
+            background: #2a2a2a;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 13px;
             cursor: pointer;
-            font-size: 24px;
+        }
+
+        /* Floating Cart Icon Bottom Left */
+        .cart-icon-bottom {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #25D366;
+            color: #000;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 26px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            z-index: 999;
         }
         .cart-badge {
             position: absolute;
-            top: -8px;
-            right: -10px;
-            background-color: #25D366;
-            color: #000;
+            top: -5px;
+            right: -5px;
+            background-color: #ff9800;
+            color: #fff;
             font-weight: bold;
             border-radius: 50%;
-            padding: 2px 6px;
+            padding: 2px 7px;
             font-size: 12px;
         }
 
@@ -112,12 +136,28 @@
             font-size: 14px;
             margin-left: 5px;
         }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .btn-buy-now {
+            flex: 1;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
         .btn-add-cart {
-            width: 100%;
+            flex: 1;
             background-color: #2979ff;
             color: white;
             border: none;
-            padding: 10px;
+            padding: 12px;
             font-weight: bold;
             border-radius: 5px;
             cursor: pointer;
@@ -229,13 +269,14 @@
 <div class="container">
     <!-- Header -->
     <div class="header">
+        <select class="lang-select" id="langSelector" onchange="changeLanguage()">
+            <option value="en">English</option>
+            <option value="ur">اردو (Urdu)</option>
+        </select>
         <h1>Smart Deals PK</h1>
-        <div class="cart-icon" onclick="toggleCart()">
-            🛒 <span class="cart-badge" id="cartCount">0</span>
-        </div>
     </div>
 
-    <h2>Our Products</h2>
+    <h2 id="txtProductsHeading">Our Products</h2>
     <br>
 
     <!-- Product 1 -->
@@ -245,13 +286,16 @@
             <img src="https://i.ibb.co/G4bBTKtK/image1.jpg" class="thumb active" onclick="changeImage('mainImg1', this.src, this)">
             <img src="https://i.ibb.co/N6GfYySv/image2.jpg" class="thumb" onclick="changeImage('mainImg1', this.src, this)">
         </div>
-        <div class="product-title">Sank Magic Practice Copybook Set - 4 Books with Pen & 10 Refills</div>
+        <div class="product-title" id="p1Title">Sank Magic Practice Copybook Set - 4 Books with Pen & 10 Refills</div>
         <div class="price-tag">
             <span class="discount-badge">30% OFF</span>
             <span class="product-price">Rs. 500</span>
             <span class="original-price">Rs. 714</span>
         </div>
-        <button class="btn-add-cart" onclick="addToCart('Sank Magic Practice Copybook Set', 500)">Add To Cart</button>
+        <div class="btn-group">
+            <button class="btn-buy-now btnBuyNowText" onclick="buyNow('Sank Magic Practice Copybook Set', 500)">Buy Now</button>
+            <button class="btn-add-cart btnAddCartText" onclick="addToCart('Sank Magic Practice Copybook Set', 500)">Add To Cart</button>
+        </div>
     </div>
 
     <!-- Product 2 -->
@@ -262,73 +306,162 @@
             <img src="https://i.ibb.co/dw1gTTJM/cam2.jpg" class="thumb" onclick="changeImage('mainImg2', this.src, this)">
             <img src="https://i.ibb.co/WvhZzHxC/cam3.jpg" class="thumb" onclick="changeImage('mainImg2', this.src, this)">
         </div>
-        <div class="product-title">Kids DIY Instant Digital Camera with Photo Printing (Random Color)</div>
+        <div class="product-title" id="p2Title">Kids DIY Instant Digital Camera with Photo Printing (Random Color)</div>
         <div class="price-tag">
             <span class="discount-badge">50% OFF</span>
             <span class="product-price">Rs. 3,500</span>
             <span class="original-price">Rs. 7,000</span>
         </div>
-        <button class="btn-add-cart" onclick="addToCart('Kids DIY Instant Digital Camera', 3500)">Add To Cart</button>
+        <div class="btn-group">
+            <button class="btn-buy-now btnBuyNowText" onclick="buyNow('Kids DIY Instant Digital Camera', 3500)">Buy Now</button>
+            <button class="btn-add-cart btnAddCartText" onclick="addToCart('Kids DIY Instant Digital Camera', 3500)">Add To Cart</button>
+        </div>
     </div>
 
     <!-- Order Form -->
-    <h2 style="margin-top: 30px;">Complete Your Order</h2>
+    <h2 id="orderFormHeader" style="margin-top: 30px;">Complete Your Order Details</h2>
     <br>
     <form id="orderForm">
         <div class="form-group">
-            <label>Aap Ka Naam (Full Name):</label>
+            <label id="lblFullName">Full Name *</label>
             <input type="text" id="name" placeholder="e.g. Nalain" required>
         </div>
 
         <div class="form-group">
-            <label>Phone / WhatsApp Number:</label>
+            <label id="lblPhone">Phone / WhatsApp Number *</label>
             <input type="tel" id="phone" placeholder="03XXXXXXXXX" required>
         </div>
 
         <div class="form-group">
-            <label>Complete Address (Ghar ka pata):</label>
-            <textarea id="address" rows="3" placeholder="House #, Street #, Area, City" required></textarea>
+            <label id="lblAddress">Full Delivery Address *</label>
+            <textarea id="address" rows="3" placeholder="House #, Street #, Sector, Area, City" required></textarea>
         </div>
 
         <div class="form-group">
-            <label>Payment Method:</label>
+            <label id="lblPayment">Payment Method *</label>
             <select id="paymentMethod" onchange="togglePaymentInfo()">
-                <option value="Cash on Delivery">Cash on Delivery (COD)</option>
-                <option value="EasyPaisa">EasyPaisa</option>
+                <option value="Cash on Delivery" id="optCOD">Cash on Delivery (COD)</option>
+                <option value="EasyPaisa" id="optEP">EasyPaisa</option>
             </select>
         </div>
 
         <!-- EasyPaisa Account Box -->
         <div class="payment-box" id="paymentDetails" style="display: none;">
-            <h3>EasyPaisa Payment Details:</h3>
+            <h3 id="epTitle">EasyPaisa Payment Details:</h3>
             <div class="payment-details">
-                <p><strong>EasyPaisa Number:</strong> 03711965637</p>
-                <p><strong>Account Title:</strong> Smart Deals PK</p>
-                <p><strong>Advance Payment:</strong> Rs. 500 Pehle send karne honge.</p>
-                <p style="margin-top: 5px; color: #ffab91; font-size: 12px;">* Payment bhejney ke baad screenshot WhatsApp par zaroor send karein.</p>
+                <p><strong id="lblEpNum">EasyPaisa Number:</strong> 03711965637</p>
+                <p><strong id="lblEpTitle">Account Title:</strong> Smart Deals PK</p>
+                <p id="lblEpNotice"><strong>Advance Deposit:</strong> Rs. 500 advance payment is required.</p>
+                <p style="margin-top: 5px; color: #ffab91; font-size: 12px;" id="lblEpProof">* Please send the payment screenshot on WhatsApp after payment transfer.</p>
             </div>
         </div>
 
-        <button type="button" class="btn-whatsapp" onclick="sendToWhatsApp()">
+        <button type="button" class="btn-whatsapp" id="btnSubmitWhatsApp" onclick="sendToWhatsApp()">
             Confirm Order Via WhatsApp
         </button>
     </form>
+</div>
+
+<!-- Floating Bottom Left Cart -->
+<div class="cart-icon-bottom" onclick="toggleCart()">
+    🛒 <span class="cart-badge" id="cartCount">0</span>
 </div>
 
 <!-- Cart Modal -->
 <div class="cart-modal" id="cartModal">
     <div class="cart-content">
         <span class="close-btn" onclick="toggleCart()">&times;</span>
-        <h3>Your Cart Items</h3>
+        <h3 id="lblCartTitle">Your Cart Items</h3>
         <br>
         <div id="cartItemsContainer">Empty</div>
         <br>
-        <h4>Total: Rs. <span id="cartTotal">0</span></h4>
+        <h4><span id="lblCartTotal">Total</span>: Rs. <span id="cartTotal">0</span></h4>
     </div>
 </div>
 
 <script>
     let cart = [];
+
+    const translations = {
+        en: {
+            productsHeading: "Our Products",
+            p1Title: "Sank Magic Practice Copybook Set - 4 Books with Pen & 10 Refills",
+            p2Title: "Kids DIY Instant Digital Camera with Photo Printing (Random Color)",
+            buyNow: "Buy Now",
+            addToCart: "Add To Cart",
+            orderHeader: "Complete Your Order Details",
+            fullName: "Full Name *",
+            phone: "Phone / WhatsApp Number *",
+            address: "Full Delivery Address *",
+            paymentMethod: "Payment Method *",
+            cod: "Cash on Delivery (COD)",
+            ep: "EasyPaisa",
+            epTitle: "EasyPaisa Payment Details:",
+            epNum: "EasyPaisa Number:",
+            epAccTitle: "Account Title:",
+            epNotice: "<strong>Advance Deposit:</strong> Rs. 500 advance payment is required.",
+            epProof: "* Please send the payment screenshot on WhatsApp after payment transfer.",
+            confirmBtn: "Confirm Order Via WhatsApp",
+            cartTitle: "Your Cart Items",
+            cartTotal: "Total",
+            emptyCart: "Cart is empty"
+        },
+        ur: {
+            productsHeading: "ہماری پروڈکٹس",
+            p1Title: "سیٹ 4 کتب معہ پین اور 10 ریفلز - Sank Magic Practice Copybook",
+            p2Title: "بچوں کا ڈیجیٹل کیمرہ فوٹو پرنٹنگ کے ساتھ (مختلف رنگ)",
+            buyNow: "ابھی خریدیں",
+            addToCart: "کارٹ میں شامل کریں",
+            orderHeader: "آرڈر کی تفصیلات مکمل کریں",
+            fullName: "پورا نام *",
+            phone: "فون / واٹس ایپ نمبر *",
+            address: "مکمل پتہ *",
+            paymentMethod: "ادائیگی کا طریقہ *",
+            cod: "کیش آن ڈیلیوری",
+            ep: "ایزی پیسہ",
+            epTitle: "ایزی پیسہ کی تفصیلات:",
+            epNum: "ایزی پیسہ نمبر:",
+            epAccTitle: "اکاؤنٹ کا نام:",
+            epNotice: "<strong>ایڈوانس رقم:</strong> 500 روپے ایڈوانس رقم درکار ہے۔",
+            epProof: "* رقم بھیجنے کے بعد سکرین شاٹ واٹس ایپ پر لازمی بھیجیں۔",
+            confirmBtn: "واٹس ایپ پر آرڈر کی تصدیق کریں",
+            cartTitle: "آپ کا کارٹ",
+            cartTotal: "کل رقم",
+            emptyCart: "کارٹ خالی ہے"
+        }
+    };
+
+    function changeLanguage() {
+        let lang = document.getElementById("langSelector").value;
+        let t = translations[lang];
+
+        document.getElementById("txtProductsHeading").innerText = t.productsHeading;
+        document.getElementById("p1Title").innerText = t.p1Title;
+        document.getElementById("p2Title").innerText = t.p2Title;
+        
+        document.querySelectorAll(".btnBuyNowText").forEach(el => el.innerText = t.buyNow);
+        document.querySelectorAll(".btnAddCartText").forEach(el => el.innerText = t.addToCart);
+
+        document.getElementById("orderFormHeader").innerText = t.orderHeader;
+        document.getElementById("lblFullName").innerText = t.fullName;
+        document.getElementById("lblPhone").innerText = t.phone;
+        document.getElementById("lblAddress").innerText = t.address;
+        document.getElementById("lblPayment").innerText = t.paymentMethod;
+        document.getElementById("optCOD").innerText = t.cod;
+        document.getElementById("optEP").innerText = t.ep;
+
+        document.getElementById("epTitle").innerText = t.epTitle;
+        document.getElementById("lblEpNum").innerText = t.epNum;
+        document.getElementById("lblEpTitle").innerText = t.epAccTitle;
+        document.getElementById("lblEpNotice").innerHTML = t.epNotice;
+        document.getElementById("lblEpProof").innerText = t.epProof;
+
+        document.getElementById("btnSubmitWhatsApp").innerText = t.confirmBtn;
+        document.getElementById("lblCartTitle").innerText = t.cartTitle;
+        document.getElementById("lblCartTotal").innerText = t.cartTotal;
+        
+        updateCart();
+    }
 
     function changeImage(mainImgId, src, element) {
         document.getElementById(mainImgId).src = src;
@@ -340,7 +473,16 @@
     function addToCart(title, price) {
         cart.push({title, price});
         updateCart();
-        alert(title + ' added to cart!');
+        alert(title + ' has been added to your cart!');
+    }
+
+    function buyNow(title, price) {
+        let exists = cart.some(item => item.title === title);
+        if (!exists) {
+            cart.push({title, price});
+            updateCart();
+        }
+        document.getElementById('orderFormHeader').scrollIntoView({ behavior: 'smooth' });
     }
 
     function removeFromCart(index) {
@@ -349,12 +491,13 @@
     }
 
     function updateCart() {
+        let lang = document.getElementById("langSelector").value;
         document.getElementById('cartCount').innerText = cart.length;
         let container = document.getElementById('cartItemsContainer');
         let total = 0;
         
         if (cart.length === 0) {
-            container.innerHTML = 'Cart is empty';
+            container.innerHTML = translations[lang].emptyCart;
         } else {
             container.innerHTML = '';
             cart.forEach((item, index) => {
@@ -393,7 +536,7 @@
         var paymentMethod = document.getElementById("paymentMethod").value;
 
         if (name === "" || phone === "" || address === "") {
-            alert("Meharbani karke tamam details fill karein!");
+            alert("Please fill all required details!");
             return;
         }
 
