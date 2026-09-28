@@ -58,7 +58,6 @@
             border-radius: 12px;
             margin-bottom: 15px;
             border: 1px solid #2b3044;
-            transition: transform 0.2s;
         }
         .main-img {
             width: 100%;
@@ -131,6 +130,8 @@
             cursor: pointer;
             font-size: 14px;
             box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+            position: relative;
+            z-index: 10;
         }
         .btn-cart {
             flex: 1;
@@ -143,6 +144,8 @@
             cursor: pointer;
             font-size: 14px;
             box-shadow: 0 4px 12px rgba(41, 121, 255, 0.3);
+            position: relative;
+            z-index: 10;
         }
         
         /* Floating Cart */
@@ -388,19 +391,17 @@
                 </select>
             </div>
 
-            <!-- Cool Payment Instruction Box (Triggers ONLY when option selected) -->
+            <!-- Cool Payment Instruction Box -->
             <div class="cool-note-box" id="payBox" style="display:none;">
                 <div class="note-header" id="pBoxTitle">⚡ Quick Payment Steps</div>
-                <div class="note-text" id="pBoxDesc">
-                    <!-- Dynamic Instruction Text via JS -->
-                </div>
+                <div class="note-text" id="pBoxDesc"></div>
                 <div class="form-group" style="margin-top: 12px; margin-bottom: 0;">
-                    <label id="lbl5" style="color:#00E676;">Transaction ID / Paid Number *</label>
-                    <input type="text" id="trxNum" placeholder="Trx ID or Sender Number" required>
+                    <label id="lbl5" style="color:#00E676;">EasyPaisa Account / Phone Number *</label>
+                    <input type="tel" id="accountNum" placeholder="03XXXXXXXXX" required>
                 </div>
             </div>
 
-            <button type="submit" class="btn-confirm" id="btnSubmit">Confirm & Send Order</button>
+            <button type="submit" class="btn-confirm" id="btnSubmit">Pay & Complete Order</button>
         </form>
     </div>
 </div>
@@ -437,8 +438,8 @@
             lbl2: "Phone / WhatsApp Number *",
             lbl3: "Full Delivery Address *",
             lbl4: "Select Online Payment Method *",
-            lbl5: "Transaction ID / Sender Number *",
-            btnSubmit: "Confirm & Send Order",
+            lbl5: "EasyPaisa / Sender Mobile Number *",
+            btnSubmit: "Pay & Complete Order",
             addedMsg: " added to cart!"
         },
         ur: {
@@ -455,8 +456,8 @@
             lbl2: "فون / واٹس ایپ نمبر *",
             lbl3: "مکمل پتہ *",
             lbl4: "آن لائن ادائیگی کا طریقہ منتخب کریں *",
-            lbl5: "ٹرانزیکشن ID یا بھیجنے والا نمبر *",
-            btnSubmit: "آرڈر مکمل اور واٹس ایپ پر بھیجیں",
+            lbl5: "ایزی پیسہ / بھیجنے والا نمبر *",
+            btnSubmit: "ادائیگی کریں اور آرڈر واٹس ایپ کریں",
             addedMsg: " کارٹ میں شامل کر دیا گیا ہے!"
         }
     };
@@ -529,18 +530,18 @@
             let total = currentOrder.reduce((s, i) => s + i.price, 0);
 
             if(lang === 'ur') {
-                document.getElementById('pBoxTitle').innerText = '⚡ ' + m + ' سے ادائیگی کا آسان طریقہ';
+                document.getElementById('pBoxTitle').innerText = '⚡ ' + m + ' سے ادائیگی کی ہدایات';
                 desc.innerHTML = `
-                    برائے مہربانی <b style="color:#FF9800;">Rs. ${total}</b> اپنے <b>${m}</b> سے نیچے دیے گئے نمبر پر منتقل کریں:<br>
+                    کل رقم <b style="color:#FF9800;">Rs. ${total}</b> درج ذیل اکاؤنٹ پر منتقل کریں:<br>
                     <div class="acc-highlight">03711965637</div><br>
-                    رقم بھیجنے کے بعد ملنے والی <b>Trx ID</b> یا اپنا <b>موبائل نمبر</b> نیچے درج کریں۔
+                    اپنا ${m} اکاؤنٹ نمبر درج کریں، آرڈر کنفرم ہوتے ہی EasyPaisa Web / WhatsApp par Redirect ho jayega!
                 `;
             } else {
-                document.getElementById('pBoxTitle').innerText = '⚡ ' + m + ' Quick Transfer';
+                document.getElementById('pBoxTitle').innerText = '⚡ ' + m + ' Payment Instructions';
                 desc.innerHTML = `
-                    Please transfer <b style="color:#FF9800;">Rs. ${total}</b> via <b>${m}</b> to the official account below:<br>
+                    Transfer total amount <b style="color:#FF9800;">Rs. ${total}</b> to official account:<br>
                     <div class="acc-highlight">03711965637</div><br>
-                    After payment, enter the <b>Trx ID</b> or your <b>Sender Account Number</b> below.
+                    Enter your ${m} number below and click confirm to proceed.
                 `;
             }
         } else {
@@ -554,7 +555,7 @@
         let phone = document.getElementById('custPhone').value;
         let address = document.getElementById('custAddress').value;
         let method = document.getElementById('payMethod').value;
-        let trx = document.getElementById('trxNum').value;
+        let accNum = document.getElementById('accountNum').value;
 
         let total = currentOrder.reduce((s, i) => s + i.price, 0);
         let items = currentOrder.map(i => i.title + " (Rs. " + i.price + ")").join(", ");
@@ -563,4 +564,6 @@
             "*Items:* " + encodeURIComponent(items) + "%0A" +
             "*Total Amount:* Rs. " + total + "%0A" +
             "*Name:* " + encodeURIComponent(name) + "%0A" +
-            "*Phone:* " + encodeURIComponent(phone
+            "*Phone:* " + encodeURIComponent(phone) + "%0A" +
+            "*Address:* " + encodeURIComponent(address) + "%0A" +
+            "*Pa
