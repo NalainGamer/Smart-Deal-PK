@@ -4,186 +4,264 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Deals PK | Smart Online Shopping</title>
+    <!-- EmailJS SDK for direct email sending -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         body { background-color: #f4f4f6; color: #212121; padding-bottom: 80px; }
         
-        /* Header */
-        .header { background: linear-gradient(135deg, #f57224, #ff4500); padding: 12px 15px; color: white; text-align: center; position: sticky; top: 0; z-index: 100; }
-        .header h1 { font-size: 20px; font-weight: bold; }
-        .sub-header { font-size: 12px; margin-top: 3px; background: rgba(0,0,0,0.1); padding: 4px; border-radius: 4px; }
+        /* Header & Cart Floating Counter */
+        .header { background: linear-gradient(135deg, #f57224, #ff4500); padding: 12px 15px; color: white; text-align: center; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { font-size: 18px; font-weight: bold; }
+        .cart-icon-btn { background: #fff; color: #f57224; border: none; padding: 6px 12px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 13px; }
 
         /* Container */
         .container { max-width: 480px; margin: 10px auto; padding: 0 10px; }
         
-        /* Product Card */
+        /* Product Cards */
         .product-card { background: white; border-radius: 10px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 1px solid #ddd; }
-        
-        .main-img { width: 100%; height: 260px; object-fit: cover; border-radius: 8px; border: 1px solid #eee; }
+        .main-img { width: 100%; height: 250px; object-fit: cover; border-radius: 8px; border: 1px solid #eee; }
         .thumb-row { display: flex; gap: 8px; margin-top: 10px; overflow-x: auto; }
         .thumb { width: 50px; height: 50px; border-radius: 6px; object-fit: cover; cursor: pointer; border: 2px solid #ddd; }
-        .thumb:hover { border-color: #f57224; }
 
         .title { font-size: 15px; font-weight: bold; margin: 10px 0 5px 0; line-height: 1.3; }
         .price-box { margin-bottom: 12px; }
         .price { font-size: 20px; font-weight: bold; color: #f57224; }
         .old-price { font-size: 13px; color: #888; text-decoration: line-through; margin-left: 5px; }
 
-        /* Direct WhatsApp Buttons */
-        .btn-container { display: flex; flex-direction: column; gap: 8px; }
-        .btn-whatsapp {
-            display: block;
-            width: 100%;
-            background-color: #25D366;
-            color: white;
-            text-align: center;
-            padding: 12px 0;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 15px;
-            text-decoration: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            touch-action: manipulation;
-        }
-        .btn-whatsapp:active { background-color: #128C7E; transform: scale(0.98); }
-        .btn-cart {
-            display: block;
-            width: 100%;
-            background-color: #f57224;
-            color: white;
-            text-align: center;
-            padding: 12px 0;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 15px;
-            text-decoration: none;
-            touch-action: manipulation;
-        }
-        
         /* Payment Details Box */
-        .bank-info { background: #eef2f5; padding: 10px; border-radius: 6px; font-size: 13px; margin: 10px 0; line-height: 1.4; border-left: 4px solid #f57224; }
+        .bank-info { background: #eef2f5; padding: 10px; border-radius: 6px; font-size: 12px; margin: 10px 0; line-height: 1.4; border-left: 4px solid #25D366; }
+
+        /* Dual Action Buttons */
+        .btn-group { display: flex; gap: 8px; }
+        .btn-cart { flex: 1; background: #ffe8de; color: #f57224; border: 1px solid #f57224; padding: 12px 5px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; text-align: center; }
+        .btn-buy { flex: 1; background: #f57224; color: white; border: none; padding: 12px 5px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; text-align: center; }
+
+        /* Checkout Modal Form Popup */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: white; border-radius: 12px; padding: 20px; width: 90%; max-width: 420px; max-height: 90vh; overflow-y: auto; }
+        .modal-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; text-align: center; color: #f57224; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; color: #333; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        .btn-submit { background: #25D366; color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        .btn-close { background: #888; color: white; border: none; width: 100%; padding: 8px; border-radius: 8px; font-size: 13px; cursor: pointer; margin-top: 5px; }
     </style>
 </head>
 <body>
 
 <div class="header">
     <h1>SMART DEALS PK</h1>
-    <div class="sub-header">🇵🇰 Free Delivery & Cashback Available | مفت ڈلیوری</div>
+    <button class="cart-icon-btn" onclick="openCartModal()">🛒 Cart (<span id="cart-count">0</span>)</button>
 </div>
 
 <div class="container">
 
-    <!-- PRODUCT 1: GEL SOCKS -->
+    <!-- PRODUCT 1 -->
     <div class="product-card">
-        <img id="p1-main" src="./IMG_20260929_072619.jpg" class="main-img" alt="Spa Gel Socks">
+        <img id="p1-main" src="./IMG_20260929_072619.jpg" class="main-img" alt="Gel Socks">
         <div class="thumb-row">
             <img src="./IMG_20260929_072619.jpg" class="thumb" onclick="changeImage('p1-main', this.src)">
             <img src="./IMG_20260929_072633.jpg" class="thumb" onclick="changeImage('p1-main', this.src)">
-            <img src="./IMG_20260929_072644.jpg" class="thumb" onclick="changeImage('p1-main', this.src)">
         </div>
-        <div class="title">Moisturizing Spa Gel Socks (Silicon Socks For Foot Care)</div>
-        <div class="price-box">
-            <span class="price">Rs. 500</span>
-            <span class="old-price">Rs. 1,000</span>
-        </div>
-        
-        <div class="bank-info">
-            <strong>Payment Method / ادائیگی کا طریقہ:</strong><br>
-            EasyPaisa / JazzCash: <strong>03711965637</strong>
-        </div>
-
-        <div class="btn-container">
-            <a href="https://wa.me/923711965637?text=Hello%20Smart%20Deals%20PK!%20I%20want%20to%20buy%20*Moisturizing%20Spa%20Gel%20Socks*%20for%20Rs.500." class="btn-whatsapp" target="_blank">
-                💬 Buy Now via WhatsApp / ابھی خریدیں
-            </a>
+        <div class="title">Moisturizing Spa Gel Socks (Silicon Feet Care)</div>
+        <div class="price-box"><span class="price">Rs. 500</span> <span class="old-price">Rs. 1,000</span></div>
+        <div class="bank-info">EasyPaisa / JazzCash: <strong>03711965637</strong> (Send Payment First / پہلے پیمنٹ بھیجیں)</div>
+        <div class="btn-group">
+            <button class="btn-cart" onclick="addToCart('Moisturizing Spa Gel Socks', 500)">🛒 Add to Cart<br>کارٹ میں شامل کریں</button>
+            <button class="btn-buy" onclick="buyNow('Moisturizing Spa Gel Socks', 500)">⚡ Buy Now<br>ابھی خریدیں</button>
         </div>
     </div>
 
-    <!-- PRODUCT 2: TEETH WHITENING STRIPS -->
+    <!-- PRODUCT 2 -->
     <div class="product-card">
-        <img id="p2-main" src="./Screenshot_2026-09-29-07-31-23-90.jpg" class="main-img" alt="Teeth Whitening Strips">
+        <img id="p2-main" src="./Screenshot_2026-09-29-07-31-23-90.jpg" class="main-img" alt="Teeth Whitening">
         <div class="thumb-row">
             <img src="./Screenshot_2026-09-29-07-31-23-90.jpg" class="thumb" onclick="changeImage('p2-main', this.src)">
             <img src="./Screenshot_2026-09-29-07-31-36-45.jpg" class="thumb" onclick="changeImage('p2-main', this.src)">
         </div>
-        <div class="title">Purple Teeth Whitening Strips for Sensitive Colour Corrector</div>
-        <div class="price-box">
-            <span class="price">Rs. 500</span>
-            <span class="old-price">Rs. 1,000</span>
-        </div>
-        
-        <div class="bank-info">
-            <strong>Payment Method / ادائیگی کا طریقہ:</strong><br>
-            EasyPaisa / JazzCash: <strong>03711965637</strong>
-        </div>
-
-        <div class="btn-container">
-            <a href="https://wa.me/923711965637?text=Hello%20Smart%20Deals%20PK!%20I%20want%20to%20buy%20*Purple%20Teeth%20Whitening%20Strips*%20for%20Rs.500." class="btn-whatsapp" target="_blank">
-                💬 Buy Now via WhatsApp / ابھی خریدیں
-            </a>
+        <div class="title">Purple Teeth Whitening Strips (Colour Corrector)</div>
+        <div class="price-box"><span class="price">Rs. 500</span> <span class="old-price">Rs. 1,000</span></div>
+        <div class="bank-info">EasyPaisa / JazzCash: <strong>03711965637</strong> (Send Payment First / پہلے پیمنٹ بھیجیں)</div>
+        <div class="btn-group">
+            <button class="btn-cart" onclick="addToCart('Purple Teeth Whitening Strips', 500)">🛒 Add to Cart<br>کارٹ میں شامل کریں</button>
+            <button class="btn-buy" onclick="buyNow('Purple Teeth Whitening Strips', 500)">⚡ Buy Now<br>ابھی خریدیں</button>
         </div>
     </div>
 
-    <!-- PRODUCT 3: SANK MAGIC COPYBOOK -->
+    <!-- PRODUCT 3 -->
     <div class="product-card">
         <img id="p3-main" src="https://i.ibb.co/G4bBTKtK/image1.jpg" class="main-img" alt="Sank Copybook">
         <div class="thumb-row">
             <img src="https://i.ibb.co/G4bBTKtK/image1.jpg" class="thumb" onclick="changeImage('p3-main', this.src)">
             <img src="https://i.ibb.co/N6GfYySv/image2.jpg" class="thumb" onclick="changeImage('p3-main', this.src)">
         </div>
-        <div class="title">Sank Magic Practice Copybook Set - 4 Books + 1 Pen + 10 Refills</div>
-        <div class="price-box">
-            <span class="price">Rs. 500</span>
-            <span class="old-price">Rs. 714</span>
-        </div>
-        
-        <div class="bank-info">
-            <strong>Payment Method / ادائیگی کا طریقہ:</strong><br>
-            EasyPaisa / JazzCash: <strong>03711965637</strong>
-        </div>
-
-        <div class="btn-container">
-            <a href="https://wa.me/923711965637?text=Hello%20Smart%20Deals%20PK!%20I%20want%20to%20buy%20*Sank%20Magic%20Copybook%20Set*%20for%20Rs.500." class="btn-whatsapp" target="_blank">
-                💬 Buy Now via WhatsApp / ابھی خریدیں
-            </a>
+        <div class="title">Sank Magic Practice Copybook Set - 4 Books + Pen</div>
+        <div class="price-box"><span class="price">Rs. 500</span> <span class="old-price">Rs. 714</span></div>
+        <div class="bank-info">EasyPaisa / JazzCash: <strong>03711965637</strong> (Send Payment First / پہلے پیمنٹ بھیجیں)</div>
+        <div class="btn-group">
+            <button class="btn-cart" onclick="addToCart('Sank Magic Copybook Set', 500)">🛒 Add to Cart<br>کارٹ میں شامل کریں</button>
+            <button class="btn-buy" onclick="buyNow('Sank Magic Copybook Set', 500)">⚡ Buy Now<br>ابھی خریدیں</button>
         </div>
     </div>
 
-    <!-- PRODUCT 4: KIDS DIGITAL CAMERA -->
+    <!-- PRODUCT 4 -->
     <div class="product-card">
         <img id="p4-main" src="https://i.ibb.co/Rpj3P9Tn/cam1.jpg" class="main-img" alt="Digital Camera">
         <div class="thumb-row">
             <img src="https://i.ibb.co/Rpj3P9Tn/cam1.jpg" class="thumb" onclick="changeImage('p4-main', this.src)">
             <img src="https://i.ibb.co/dw1gTTJM/cam2.jpg" class="thumb" onclick="changeImage('p4-main', this.src)">
-            <img src="https://i.ibb.co/WvhZzHxC/cam3.jpg" class="thumb" onclick="changeImage('p4-main', this.src)">
         </div>
-        <div class="title">Kids DIY Instant Print Digital Camera with Photo Printing</div>
-        <div class="price-box">
-            <span class="price">Rs. 3,500</span>
-            <span class="old-price">Rs. 7,000</span>
-        </div>
-        
-        <div class="bank-info">
-            <strong>Payment Method / ادائیگی کا طریقہ:</strong><br>
-            EasyPaisa / JazzCash: <strong>03711965637</strong>
-        </div>
-
-        <div class="btn-container">
-            <a href="https://wa.me/923711965637?text=Hello%20Smart%20Deals%20PK!%20I%20want%20to%20buy%20*Kids%20DIY%20Digital%20Camera*%20for%20Rs.3500." class="btn-whatsapp" target="_blank">
-                💬 Buy Now via WhatsApp / ابھی خریدیں
-            </a>
+        <div class="title">Kids DIY Instant Print Digital Camera</div>
+        <div class="price-box"><span class="price">Rs. 3,500</span> <span class="old-price">Rs. 7,000</span></div>
+        <div class="bank-info">EasyPaisa / JazzCash: <strong>03711965637</strong> (Send Payment First / پہلے پیمنٹ بھیجیں)</div>
+        <div class="btn-group">
+            <button class="btn-cart" onclick="addToCart('Kids Digital Camera', 3500)">🛒 Add to Cart<br>کارٹ میں شامل کریں</button>
+            <button class="btn-buy" onclick="buyNow('Kids Digital Camera', 3500)">⚡ Buy Now<br>ابھی خریدیں</button>
         </div>
     </div>
 
 </div>
 
+<!-- CHECKOUT / ORDER MODAL -->
+<div class="modal-overlay" id="checkoutModal">
+    <div class="modal-content">
+        <div class="modal-title">Complete Order / آرڈر مکمل کریں</div>
+        <form id="orderForm" onsubmit="submitOrder(event)">
+            <div class="form-group">
+                <label>Selected Item(s) / آئٹمز:</label>
+                <input type="text" id="orderItems" readonly style="background:#eee;">
+            </div>
+            <div class="form-group">
+                <label>Total Amount / کل رقم:</label>
+                <input type="text" id="orderTotal" readonly style="background:#eee; font-weight:bold; color:#f57224;">
+            </div>
+            <div class="form-group">
+                <label>Full Name / پورا نام *</label>
+                <input type="text" id="custName" required placeholder="Enter full name">
+            </div>
+            <div class="form-group">
+                <label>Email Address / ای میل *</label>
+                <input type="email" id="custEmail" required placeholder="example@email.com">
+            </div>
+            <div class="form-group">
+                <label>WhatsApp / Phone Number *</label>
+                <input type="tel" id="custPhone" required placeholder="03001234567">
+            </div>
+            <div class="form-group">
+                <label>Full Delivery Address / مکمل پتہ *</label>
+                <textarea id="custAddress" rows="2" required placeholder="House No, Street, City"></textarea>
+            </div>
+            
+            <div style="background:#fff3cd; border:1px solid #ffeeba; padding:10px; border-radius:6px; margin-bottom:10px;">
+                <p style="font-size:11px; color:#856404;"><strong>Payment Verification Check / پیمنٹ کی تصدیق:</strong><br>
+                Please send Rs. <span id="paymentAmount">0</span> to EasyPaisa/JazzCash <strong>03711965637</strong> and enter details below.</p>
+            </div>
+
+            <div class="form-group">
+                <label>Your Account Number (جس سے پیسے بھیجے) *</label>
+                <input type="text" id="senderAccount" required placeholder="e.g. 0300XXXXXXX">
+            </div>
+            <div class="form-group">
+                <label>Transaction ID / TRX ID *</label>
+                <input type="text" id="trxId" required placeholder="e.g. 2839102831">
+            </div>
+
+            <button type="submit" class="btn-submit">✅ Place Order via WhatsApp</button>
+            <button type="button" class="btn-close" onclick="closeModal()">Close / بند کریں</button>
+        </form>
+    </div>
+</div>
+
 <script>
-    // Image thumbnail click changer
+    // Initialize EmailJS (Optional: Add your Public Key if configured)
+    (function(){
+        if(typeof emailjs !== 'undefined'){
+            emailjs.init("YOUR_PUBLIC_KEY"); // Replace with EmailJS Public Key if used
+        }
+    })();
+
+    let cart = [];
+
     function changeImage(targetId, src) {
         document.getElementById(targetId).src = src;
+    }
+
+    function addToCart(title, price) {
+        cart.push({ title, price });
+        updateCartUI();
+        alert('Item added to cart! / آئٹم کارٹ میں شامل ہو گیا۔');
+    }
+
+    function updateCartUI() {
+        document.getElementById('cart-count').innerText = cart.length;
+    }
+
+    function openCartModal() {
+        if (cart.length === 0) {
+            alert('Your cart is empty! / آپ کا کارٹ خالی ہے۔');
+            return;
+        }
+        let itemsList = cart.map(item => item.title).join(', ');
+        let total = cart.reduce((sum, item) => sum + item.price, 0);
+        
+        openCheckout(itemsList, total);
+    }
+
+    function buyNow(title, price) {
+        openCheckout(title, price);
+    }
+
+    function openCheckout(items, total) {
+        document.getElementById('orderItems').value = items;
+        document.getElementById('orderTotal').value = 'Rs. ' + total;
+        document.getElementById('paymentAmount').innerText = total;
+        document.getElementById('checkoutModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('checkoutModal').style.display = 'none';
+    }
+
+    function submitOrder(event) {
+        event.preventDefault();
+
+        let items = document.getElementById('orderItems').value;
+        let total = document.getElementById('orderTotal').value;
+        let name = document.getElementById('custName').value;
+        let email = document.getElementById('custEmail').value;
+        let phone = document.getElementById('custPhone').value;
+        let address = document.getElementById('custAddress').value;
+        let senderAcc = document.getElementById('senderAccount').value;
+        let trx = document.getElementById('trxId').value;
+
+        // Form Validation for Correct Payment Info
+        if (trx.length < 5) {
+            alert('Please enter a valid Transaction TRX ID / صحیح TRX ID درج کریں۔');
+            return;
+        }
+
+        // WhatsApp Message Format
+        let message = `*NEW ORDER DETAILS - SMART DEALS PK*%0A%0A` +
+                      `*Items:* ${items}%0A` +
+                      `*Total:* ${total}%0A%0A` +
+                      `*CUSTOMER INFO:*%0A` +
+                      `*Name:* ${name}%0A` +
+                      `*Email:* ${email}%0A` +
+                      `*Phone:* ${phone}%0A` +
+                      `*Address:* ${address}%0A%0A` +
+                      `*PAYMENT VERIFICATION:*%0A` +
+                      `*Sender Account:* ${senderAcc}%0A` +
+                      `*TRX ID:* ${trx}`;
+
+        let whatsappURL = `https://wa.me/923711965637?text=${message}`;
+
+        // Direct Redirect to WhatsApp
+        window.open(whatsappURL, '_blank');
+        closeModal();
     }
 </script>
 
 </body>
-    </html>
+            </html>
             
