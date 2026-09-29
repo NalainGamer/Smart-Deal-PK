@@ -3,582 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Deals PK | Online Shopping Pakistan</title>
+    <title>Smart Deals PK - Payment</title>
     <style>
-        * {
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
         body {
-            background-color: #f4f4f6;
-            color: #212121;
-            padding-bottom: 70px;
-        }
-        
-        /* Daraz Style Header */
-        .daraz-header {
-            background: linear-gradient(135deg, #f57224, #ff4500);
-            padding: 12px 15px;
-            position: sticky;
-            top: 0;
-            z-index: 999;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-        }
-        .top-bar {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .brand-logo {
-            color: #ffffff;
-            font-size: 20px;
-            font-weight: 900;
-            letter-spacing: -0.5px;
-        }
-        .search-box {
-            background: #ffffff;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            padding: 8px 15px;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .search-box input {
-            border: none;
-            outline: none;
-            width: 100%;
-            font-size: 13px;
-            color: #333;
-        }
-
-        /* Hero Banner */
-        .hero-banner {
-            background: #111827;
-            color: #fff;
-            padding: 15px;
-            text-align: center;
-            font-size: 13px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 8px;
-        }
-        .hero-banner span {
-            background: #f57224;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-        }
-
-        /* Product Grid */
-        .container {
-            max-width: 500px;
-            margin: 10px auto;
-            padding: 0 10px;
-        }
-        .section-title {
-            font-size: 16px;
-            font-weight: 700;
-            margin: 12px 5px;
-            color: #212121;
-            display: flex;
             align-items: center;
-            justify-content: space-between;
-        }
-        
-        .product-card {
-            background: #ffffff;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            border: 1px solid #e5e7eb;
-        }
-        .main-img {
-            width: 100%;
-            height: 230px;
-            object-fit: cover;
-            display: block;
-        }
-        .thumb-row {
-            display: flex;
-            gap: 6px;
-            padding: 8px 12px 0 12px;
-            overflow-x: auto;
-        }
-        .thumb {
-            width: 42px;
-            height: 42px;
-            border-radius: 6px;
-            object-fit: cover;
-            cursor: pointer;
-            border: 2px solid #e5e7eb;
-            flex-shrink: 0;
-        }
-        .thumb.active {
-            border-color: #f57224;
-        }
-        .details {
-            padding: 12px;
-        }
-        .product-title {
-            font-size: 14px;
-            color: #212121;
-            font-weight: 600;
-            line-height: 1.3;
-            margin-bottom: 8px;
-        }
-        .price-row {
-            display: flex;
-            align-items: baseline;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-        .current-price {
-            color: #f57224;
-            font-size: 20px;
-            font-weight: 800;
-        }
-        .old-price {
-            color: #9e9e9e;
-            font-size: 13px;
-            text-decoration: line-through;
-        }
-        .discount-tag {
-            background: #ffe8de;
-            color: #f57224;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-
-        /* Action Buttons */
-        .btn-row {
-            display: flex;
-            gap: 8px;
-        }
-        .btn-buy-now {
-            flex: 1;
-            background: #f57224;
-            color: #ffffff;
-            border: none;
-            padding: 12px;
-            font-weight: 700;
-            font-size: 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            text-align: center;
-        }
-        .btn-add-cart {
-            flex: 1;
-            background: #26abd4;
-            color: #ffffff;
-            border: none;
-            padding: 12px;
-            font-weight: 700;
-            font-size: 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            text-align: center;
-        }
-
-        /* Floating Cart Bar */
-        .cart-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #ffffff;
-            padding: 10px 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 -3px 10px rgba(0,0,0,0.1);
-            z-index: 998;
-        }
-        .cart-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .cart-icon-wrapper {
-            position: relative;
-            font-size: 22px;
-        }
-        .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -8px;
-            background: #f57224;
-            color: #fff;
-            font-size: 10px;
-            font-weight: bold;
-            border-radius: 10px;
-            padding: 2px 5px;
-        }
-        .cart-btn-checkout {
-            background: #f57224;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 13px;
-            border: none;
-            cursor: pointer;
-        }
-
-        /* Modal Overlays */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 10000;
-            justify-content: center;
-            align-items: flex-end;
-        }
-        .modal.active {
-            display: flex !important;
-        }
-        .modal-body {
-            background: #ffffff;
-            width: 100%;
-            max-width: 500px;
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
+            min-height: 100vh;
+            margin: 0;
             padding: 20px;
-            max-height: 85vh;
-            overflow-y: auto;
-            position: relative;
-            animation: slideUp 0.25s ease-out;
         }
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-        }
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 22px;
-            cursor: pointer;
-            color: #757575;
-        }
-
-        /* Form Controls */
-        .form-group {
-            margin-bottom: 12px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 4px;
-            font-weight: 600;
-        }
-        .form-group input, .form-group select, .form-group textarea {
+        .payment-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            max-width: 380px;
             width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #cccccc;
-            border-radius: 6px;
-            font-size: 14px;
-            outline: none;
+            text-align: center;
         }
-        .form-group input:focus, .form-group select:focus {
-            border-color: #f57224;
-        }
-
-        .pay-instructions {
-            background: #fff0e6;
-            border: 1px solid #f57224;
+        h2 { margin-bottom: 10px; color: #333; }
+        .amount { font-size: 24px; font-weight: bold; color: #28a745; margin-bottom: 15px; }
+        .info-box { background: #eef2f5; padding: 12px; border-radius: 6px; font-size: 13px; margin-bottom: 20px; text-align: left; line-height: 1.5; }
+        label { display: block; text-align: left; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
+        input, select, button {
+            width: 100%;
             padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
             border-radius: 6px;
-            margin: 12px 0;
-            font-size: 13px;
+            box-sizing: border-box;
+            font-size: 15px;
         }
-        .num-box {
-            background: #f57224;
-            color: #fff;
-            padding: 4px 8px;
-            border-radius: 4px;
+        .submit-btn {
+            background-color: #25D366;
+            color: white;
+            border: none;
             font-weight: bold;
-            display: inline-block;
-            margin-top: 4px;
+            cursor: pointer;
+            font-size: 16px;
         }
+        .submit-btn:hover { background-color: #128C7E; }
+        .error { color: red; font-size: 12px; text-align: left; margin-top: -10px; margin-bottom: 10px; display: none; }
     </style>
 </head>
 <body>
 
-<!-- Daraz Header -->
-<div class="daraz-header">
-    <div class="top-bar">
-        <div class="brand-logo">SMART DEALS PK</div>
-        <span style="color:#fff; font-size: 12px; font-weight: 600;">🇵🇰 Express Delivery</span>
-    </div>
-    <div class="search-box">
-        <input type="text" placeholder="Search in Smart Deals PK..." readonly>
-    </div>
-</div>
+<div class="payment-card">
+    <h2>Smart Deals PK</h2>
+    <p>Complete your payment below</p>
+    <div class="amount">Rs. 500</div>
 
-<div class="hero-banner">
-    <span>FLASH SALE</span> Free Delivery & Guaranteed Low Prices
-</div>
-
-<div class="container">
-    <div class="section-title">
-        <span>Just For You</span>
-        <span style="color:#f57224; font-size:12px;">100% Verified</span>
+    <div class="info-box">
+        <strong>Payment Instructions:</strong><br>
+        1. Open EasyPaisa or JazzCash app.<br>
+        2. Send <strong>Rs. 500</strong> to: <strong>03711965637</strong>.<br>
+        3. Enter your phone number & 11-digit TrxID below.<br>
+        4. Tap the green button to open WhatsApp and send details.
     </div>
 
-    <!-- Product 1 -->
-    <div class="product-card">
-        <img id="img1" src="https://ibb.co/ds8NtQ90" class="main-img">
-        <div class="thumb-row">
-            <img src="https://ibb.co/ds8NtQ90" class="thumb active" data-main="img1">
-            <img src="https://ibb.co/YB47nBrH" class="thumb" data-main="img1">
-            <img src="https://ibb.co/svFhJh19" class="thumb" data-main="img1">
-            <img src="https://ibb.co/kV9KVzbr" class="thumb" data-main="img1">
-        </div>
-        <div class="details">
-            <div class="product-title">Moisturizing Spa Gel Socks | Silicon Socks For Women | Foot Care Spa Gel Socks</div>
-            <div class="price-row">
-                <span class="current-price">Rs. 500</span>
-                <span class="old-price">Rs. 1,000</span>
-                <span class="discount-tag">-50%</span>
-            </div>
-            <div class="btn-row">
-                <button type="button" class="btn-add-cart" id="cart1">Add to Cart</button>
-                <button type="button" class="btn-buy-now" id="buy1">Buy Now</button>
-            </div>
-        </div>
-    </div>
+    <form id="paymentForm">
+        <label for="method">Select Payment Method</label>
+        <select id="method" required>
+            <option value="EasyPaisa">EasyPaisa</option>
+            <option value="JazzCash">JazzCash</option>
+        </select>
 
-    <!-- Product 2 (Teeth Whitening - Uploaded Photos Updated) -->
-    <div class="product-card">
-        <img id="img2" src="Screenshot_2026-09-29-07-31-48-44.jpg" class="main-img">
-        <div class="thumb-row">
-            <img src="Screenshot_2026-09-29-07-31-48-44.jpg" class="thumb active" data-main="img2">
-            <img src="Screenshot_2026-09-29-07-31-36-45.jpg" class="thumb" data-main="img2">
-        </div>
-        <div class="details">
-            <div class="product-title">Purple Teeth Whitening Strips for Sensitive Colour Corrector for White Teeth | Oral Care</div>
-            <div class="price-row">
-                <span class="current-price">Rs. 500</span>
-                <span class="old-price">Rs. 1,000</span>
-                <span class="discount-tag">-50%</span>
-            </div>
-            <div class="btn-row">
-                <button type="button" class="btn-add-cart" id="cart2">Add to Cart</button>
-                <button type="button" class="btn-buy-now" id="buy2">Buy Now</button>
-            </div>
-        </div>
-    </div>
+        <label for="phone">Your Mobile Number</label>
+        <input type="tel" id="phone" placeholder="03XXXXXXXXX" required maxlength="11">
+        <div id="phoneError" class="error">Enter a valid 11-digit number starting with 03.</div>
 
-    <!-- Product 3 -->
-    <div class="product-card">
-        <img id="img3" src="https://i.ibb.co/G4bBTKtK/image1.jpg" class="main-img">
-        <div class="thumb-row">
-            <img src="https://i.ibb.co/G4bBTKtK/image1.jpg" class="thumb active" data-main="img3">
-            <img src="https://i.ibb.co/N6GfYySv/image2.jpg" class="thumb" data-main="img3">
-        </div>
-        <div class="details">
-            <div class="product-title">Sank Magic Practice Copybook Set - 4 Books + 1 Pen + 10 Refills</div>
-            <div class="price-row">
-                <span class="current-price">Rs. 500</span>
-                <span class="old-price">Rs. 714</span>
-                <span class="discount-tag">-30%</span>
-            </div>
-            <div class="btn-row">
-                <button type="button" class="btn-add-cart" id="cart3">Add to Cart</button>
-                <button type="button" class="btn-buy-now" id="buy3">Buy Now</button>
-            </div>
-        </div>
-    </div>
+        <label for="trxid">Transaction ID (TrxID)</label>
+        <input type="text" id="trxid" placeholder="Enter 11-digit TrxID" required maxlength="11">
+        <div id="trxError" class="error">TrxID must be exactly 11 numeric digits (no letters allowed).</div>
 
-    <!-- Product 4 -->
-    <div class="product-card">
-        <img id="img4" src="https://i.ibb.co/Rpj3P9Tn/cam1.jpg" class="main-img">
-        <div class="thumb-row">
-            <img src="https://i.ibb.co/Rpj3P9Tn/cam1.jpg" class="thumb active" data-main="img4">
-            <img src="https://i.ibb.co/dw1gTTJM/cam2.jpg" class="thumb" data-main="img4">
-            <img src="https://i.ibb.co/WvhZzHxC/cam3.jpg" class="thumb" data-main="img4">
-        </div>
-        <div class="details">
-            <div class="product-title">Kids DIY Instant Print Digital Camera with Photo Printing</div>
-            <div class="price-row">
-                <span class="current-price">Rs. 3,500</span>
-                <span class="old-price">Rs. 7,000</span>
-                <span class="discount-tag">-50%</span>
-            </div>
-            <div class="btn-row">
-                <button type="button" class="btn-add-cart" id="cart4">Add to Cart</button>
-                <button type="button" class="btn-buy-now" id="buy4">Buy Now</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Floating Bottom Cart -->
-<div class="cart-bar">
-    <div class="cart-info">
-        <div class="cart-icon-wrapper">
-            🛒 <span class="cart-count" id="cCount">0</span>
-        </div>
-        <div>
-            <div style="font-size:11px; color:#757575;">Total Amount</div>
-            <div style="font-size:15px; font-weight:800; color:#f57224;">Rs. <span id="cTotal">0</span></div>
-        </div>
-    </div>
-    <button type="button" class="cart-btn-checkout" id="openCartBtn">View Cart / Checkout</button>
-</div>
-
-<!-- Cart Modal -->
-<div class="modal" id="cartModal">
-    <div class="modal-body">
-        <span class="close-modal" id="closeCart">&times;</span>
-        <h3 style="font-size:16px; margin-bottom:12px;">Shopping Cart</h3>
-        <div id="cartItems" style="min-height: 60px; color:#666; font-size:13px;">Cart is empty</div>
-        <hr style="margin:12px 0; border:none; border-top:1px solid #eee;">
-        <button type="button" class="btn-buy-now" id="proceedCartBtn" style="width:100%;">Proceed to Checkout</button>
-    </div>
-</div>
-
-<!-- Checkout Form Modal -->
-<div class="modal" id="checkoutModal">
-    <div class="modal-body">
-        <span class="close-modal" id="closeCheckout">&times;</span>
-        <h3 style="font-size:16px; margin-bottom:12px; color:#f57224;">Checkout & Delivery Details</h3>
-
-        <form id="checkoutForm">
-            <div class="form-group">
-                <label>Full Name *</label>
-                <input type="text" id="custName" placeholder="Enter full name" required>
-            </div>
-            <div class="form-group">
-                <label>Mobile Number / WhatsApp *</label>
-                <input type="tel" id="custPhone" placeholder="03XXXXXXXXX" required>
-            </div>
-            <div class="form-group">
-                <label>Complete Shipping Address *</label>
-                <textarea id="custAddress" rows="2" placeholder="House #, Street #, City" required></textarea>
-            </div>
-            <div class="form-group">
-                <label>Payment Method *</label>
-                <select id="paySelect" required>
-                    <option value="">-- Select Payment Method --</option>
-                    <option value="EasyPaisa">EasyPaisa</option>
-                    <option value="JazzCash">JazzCash</option>
-                </select>
-            </div>
-
-            <div class="pay-instructions" id="payInfoBox" style="display:none;">
-                <b>Payment Instructions:</b>
-                <div style="margin-top:4px;">Transfer total payment to our official account:</div>
-                <div class="num-box">03711965637</div>
-                <div class="form-group" style="margin-top:10px; margin-bottom:0;">
-                    <label>Your Account Number (Sender) *</label>
-                    <input type="tel" id="senderNum" placeholder="03XXXXXXXXX">
-                </div>
-            </div>
-
-            <button type="submit" class="btn-buy-now" style="width:100%; margin-top:10px;">Proceed to Payment</button>
-        </form>
-    </div>
+        <button type="button" class="submit-btn" onclick="processPayment()">Send Payment Proof on WhatsApp</button>
+    </form>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    let cart = [];
-    let currentOrder = [];
+    function processPayment() {
+        var phone = document.getElementById('phone').value.trim();
+        var trxid = document.getElementById('trxid').value.trim();
+        var method = document.getElementById('method').value;
 
-    const products = {
-        1: { id: 1, name: "Moisturizing Spa Gel Socks", price: 500 },
-        2: { id: 2, name: "Purple Teeth Whitening Strips", price: 500 },
-        3: { id: 3, name: "Sank Magic Copybook Set", price: 500 },
-        4: { id: 4, name: "Kids DIY Digital Camera", price: 3500 }
-    };
+        var phoneError = document.getElementById('phoneError');
+        var trxError = document.getElementById('trxError');
 
-    // Thumbnails image change
-    document.querySelectorAll('.thumb').forEach(t => {
-        t.addEventListener('click', function() {
-            let mainId = this.getAttribute('data-main');
-            document.getElementById(mainId).src = this.src;
-            this.parentElement.querySelectorAll('.thumb').forEach(x => x.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
+        var isValid = true;
 
-    // Add To Cart
-    document.getElementById('cart1').addEventListener('click', () => addItem(1));
-    document.getElementById('cart2').addEventListener('click', () => addItem(2));
-    document.getElementById('cart3').addEventListener('click', () => addItem(3));
-    document.getElementById('cart4').addEventListener('click', () => addItem(4));
-
-    // Buy Now
-    document.getElementById('buy1').addEventListener('click', () => directBuy(1));
-    document.getElementById('buy2').addEventListener('click', () => directBuy(2));
-    document.getElementById('buy3').addEventListener('click', () => directBuy(3));
-    document.getElementById('buy4').addEventListener('click', () => directBuy(4));
-
-    // Open & Close Modals
-    document.getElementById('openCartBtn').addEventListener('click', openCartModal);
-    document.getElementById('closeCart').addEventListener('click', () => toggleModal('cartModal', false));
-    document.getElementById('closeCheckout').addEventListener('click', () => toggleModal('checkoutModal', false));
-    document.getElementById('proceedCartBtn').addEventListener('click', startCheckout);
-
-    function addItem(id) {
-        cart.push(products[id]);
-        updateCartBar();
-        alert(products[id].name + " added to cart!");
-    }
-
-    function updateCartBar() {
-        document.getElementById('cCount').innerText = cart.length;
-        let total = cart.reduce((sum, item) => sum + item.price, 0);
-        document.getElementById('cTotal').innerText = total;
-    }
-
-    function openCartModal() {
-        let container = document.getElementById('cartItems');
-        if (cart.length === 0) {
-            container.innerHTML = "Cart is empty";
+        // Check phone number format
+        if (!/^03[0-9]{9}$/.test(phone)) {
+            phoneError.style.display = 'block';
+            isValid = false;
         } else {
-            container.innerHTML = "";
-            cart.forEach(item => {
-                container.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:8px; font-weight:600;">
-                    <span>${item.name}</span>
-                    <span style="color:#f57224;">Rs. ${item.price}</span>
-                </div>`;
-            });
+            phoneError.style.display = 'none';
         }
-        toggleModal('cartModal', true);
-    }
 
-    function directBuy(id) {
-        currentOrder = [products[id]];
-        toggleModal('checkoutModal', true);
-    }
-
-    function startCheckout() {
-        if (cart.length === 0) {
-            alert("Cart is empty!");
-            return;
+        // Check TrxID format (Strictly 11 numeric digits)
+        if (!/^[0-9]{11}$/.test(trxid)) {
+            trxError.style.display = 'block';
+            isValid = false;
+        } else {
+            trxError.style.display = 'none';
         }
-        currentOrder = [...cart];
-        toggleModal('cartModal', false);
-        toggleModal('checkoutModal', true);
-    }
 
-    function toggleModal(id, show) {
-        let el = document.getElementById(id);
-        if (show) el.classList.add('active');
-        else el.classList.remove('active');
+        // If inputs are valid, open WhatsApp link
+        if (isValid) {
+            var message = "Hello Smart Deals PK,%0A%0AI have sent Rs. 500 payment.%0A%0A*Method:* " + method + "%0A*My Phone:* " + phone + "%0A*TrxID:* " + trxid + "%0A%0A_I am sending my payment screenshot now._";
+            var whatsappUrl = "https://wa.me/923711965637?text=" + message;
+            
+            window.location.href = whatsappUrl;
+        }
     }
+</script>
 
-    // Payment Box display toggle
-    document.getElementById('paySelect').addEventListe
+</body>
+</html>
