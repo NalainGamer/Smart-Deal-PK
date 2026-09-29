@@ -13,24 +13,7 @@
         .header { background: linear-gradient(135deg, #f57224, #ff4500); padding: 12px 15px; color: white; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         .lang-select { background: #fff; color: #f57224; border: none; padding: 5px 8px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; }
         .header h1 { font-size: 16px; font-weight: bold; }
-        
-        /* Cart & Admin Red Dot Container */
-        .cart-wrapper { display: flex; align-items: center; gap: 8px; position: relative; }
         .cart-icon-btn { background: #fff; color: #f57224; border: none; padding: 6px 12px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 12px; }
-        
-        /* Red Dot Button */
-        .red-dot-btn {
-            width: 14px;
-            height: 14px;
-            background-color: #ff0000;
-            border-radius: 50%;
-            border: 2px solid #ffffff;
-            cursor: pointer;
-            box-shadow: 0 0 6px rgba(0,0,0,0.3);
-            display: inline-block;
-            transition: transform 0.2s;
-        }
-        .red-dot-btn:hover { transform: scale(1.3); }
 
         .container { max-width: 480px; margin: 10px auto; padding: 0 10px; }
         
@@ -51,19 +34,14 @@
         .btn-cart { flex: 1; background: #ffe8de; color: #f57224; border: 1px solid #f57224; padding: 12px 5px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; text-align: center; }
         .btn-buy { flex: 1; background: #f57224; color: white; border: none; padding: 12px 5px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; text-align: center; }
 
-        /* Modal Popups */
+        /* Modal Popup */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
         .modal-content { background: white; border-radius: 12px; padding: 20px; width: 90%; max-width: 420px; max-height: 90vh; overflow-y: auto; }
         .modal-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; text-align: center; color: #f57224; }
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; color: #333; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
-        
-        .payment-box { background: #fff3cd; border: 1px solid #ffeeba; padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 12px; }
-        .payment-box strong { color: #856404; }
-
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
         .btn-submit { background: #25D366; color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
-        .btn-update { background: #f57224; color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
         .btn-close { background: #888; color: white; border: none; width: 100%; padding: 8px; border-radius: 8px; font-size: 13px; cursor: pointer; margin-top: 5px; }
         .error-msg { color: red; font-size: 11px; display: none; margin-top: 3px; }
     </style>
@@ -76,55 +54,11 @@
         <option value="ur">اردو</option>
     </select>
     <h1>SMART DEALS PK</h1>
-    <div class="cart-wrapper">
-        <!-- Red Dot for Admin Add Product -->
-        <span class="red-dot-btn" id="adminRedDot" title="Add New Product" onclick="openAddProductModal()"></span>
-        <button class="cart-icon-btn" id="cartBtn" onclick="openCartModal()">🛒 <span id="cart-lbl">Cart</span> (<span id="cart-count">0</span>)</button>
-    </div>
+    <button class="cart-icon-btn" onclick="openCartModal()">🛒 <span id="cart-lbl">Cart</span> (<span id="cart-count">0</span>)</button>
 </div>
 
 <div class="container" id="productList">
-    <!-- Products will render dynamically -->
-</div>
-
-<!-- ADD NEW PRODUCT MODAL (ADMIN) -->
-<div class="modal-overlay" id="addProductModal">
-    <div class="modal-content">
-        <div class="modal-title">Add New Product</div>
-        <form id="newProductForm" onsubmit="saveNewProduct(event)">
-            <div class="form-group">
-                <label>Product Title (English) *</label>
-                <input type="text" id="npTitleEn" required placeholder="e.g. New Wireless Earbuds">
-            </div>
-            <div class="form-group">
-                <label>Product Title (Urdu)</label>
-                <input type="text" id="npTitleUr" placeholder="e.g. نئے وائرلیس ایئربڈز">
-            </div>
-            <div class="form-group">
-                <label>Price (Rs.) *</label>
-                <input type="number" id="npPrice" required placeholder="e.g. 1500">
-            </div>
-            <div class="form-group">
-                <label>Old Price / Original Price (Rs.)</label>
-                <input type="number" id="npOldPrice" placeholder="e.g. 3000">
-            </div>
-            <div class="form-group">
-                <label>Photo 1 URL / Image Link *</label>
-                <input type="text" id="npImg1" required placeholder="Paste image link here">
-            </div>
-            <div class="form-group">
-                <label>Photo 2 URL / Image Link (Optional)</label>
-                <input type="text" id="npImg2" placeholder="Paste image link here">
-            </div>
-            <div class="form-group">
-                <label>Photo 3 URL / Image Link (Optional)</label>
-                <input type="text" id="npImg3" placeholder="Paste image link here">
-            </div>
-
-            <button type="submit" class="btn-update">🚀 Update Website</button>
-            <button type="button" class="btn-close" onclick="closeAddProductModal()">Close</button>
-        </form>
-    </div>
+    <!-- Products will render dynamically from JavaScript array -->
 </div>
 
 <!-- CHECKOUT / ORDER MODAL -->
@@ -158,24 +92,14 @@
                 <textarea id="custAddress" rows="2" required placeholder="House No, Street, City"></textarea>
             </div>
             
-            <!-- IMPROVED PAYMENT METHOD SELECTOR -->
-            <div class="form-group">
-                <label id="lbl-pay-method">Select Payment Method *</label>
-                <select id="paymentMethod" onchange="updatePaymentDetails()">
-                    <option value="EasyPaisa">EasyPaisa (03711965637)</option>
-                    <option value="JazzCash">JazzCash (03711965637)</option>
-                    <option value="Bank Transfer">Bank Transfer (Ask on WhatsApp)</option>
-                </select>
-            </div>
-
-            <div class="payment-box">
-                <p><strong id="lbl-pay-check">Payment Instructions:</strong><br>
-                Send Rs. <span id="paymentAmount">0</span> via <span id="selectedPayMethodName">EasyPaisa</span> to <strong>03711965637</strong> and enter details below.</p>
+            <div style="background:#fff3cd; border:1px solid #ffeeba; padding:10px; border-radius:6px; margin-bottom:10px;">
+                <p style="font-size:11px; color:#856404;"><strong id="lbl-pay-check">Payment Verification Check:</strong><br>
+                <span id="lbl-pay-instruction">Please send Rs.</span> <span id="paymentAmount">0</span> <span id="lbl-pay-to">to EasyPaisa/JazzCash <strong>03711965637</strong> and enter details below.</span></p>
             </div>
 
             <div class="form-group">
-                <label id="lbl-sender">Your Sender Account Number / Name *</label>
-                <input type="text" id="senderAccount" required placeholder="0300XXXXXXX or Account Title">
+                <label id="lbl-sender">Your Account Number *</label>
+                <input type="text" id="senderAccount" required placeholder="0300XXXXXXX">
             </div>
             <div class="form-group">
                 <label id="lbl-trx">Transaction ID / TRX ID *</label>
@@ -189,8 +113,8 @@
 </div>
 
 <script>
-    // 1. Initial Default Products List (Guaranteed Safe)
-    const defaultProducts = [
+    // Dynamic Products Data Array
+    const productsData = [
         {
             id: 1,
             title_en: "Moisturizing Spa Gel Socks (Silicon Feet Care)",
@@ -225,66 +149,44 @@
         }
     ];
 
-    let productsData = [];
-
-    // Combine local storage products with default products without losing defaults
-    function loadProducts() {
-        const saved = localStorage.getItem('custom_products_v2');
-        if (saved) {
-            try {
-                const custom = JSON.parse(saved);
-                productsData = [...custom, ...defaultProducts];
-            } catch(e) {
-                productsData = [...defaultProducts];
-            }
-        } else {
-            productsData = [...defaultProducts];
-        }
-    }
-
     let currentLang = 'en';
     let cart = [];
 
-    // Render Products Dynamic Function
-    window.renderProducts = function() {
+    // Render Products
+    function renderProducts() {
         const container = document.getElementById('productList');
-        if (!container) return;
         container.innerHTML = '';
 
         productsData.forEach(p => {
-            const title = (currentLang === 'ur' && p.title_ur) ? p.title_ur : p.title_en;
+            const title = currentLang === 'ur' ? p.title_ur : p.title_en;
             const btnCartText = currentLang === 'ur' ? '🛒 کارٹ میں شامل کریں' : '🛒 Add to Cart';
             const btnBuyText = currentLang === 'ur' ? '⚡ ابھی خریدیں' : '⚡ Buy Now';
             const payText = currentLang === 'ur' ? 'ایزی پیسہ / جیز کیش: <strong>03711965637</strong> (پہلے پیمنٹ بھیجیں)' : 'EasyPaisa / JazzCash: <strong>03711965637</strong> (Send Payment First)';
 
-            let thumbsHtml = '';
-            if (p.images && p.images.length > 0) {
-                thumbsHtml = p.images.map(img => img ? `<img src="${img}" class="thumb" onclick="changeImage('p${p.id}-main', '${img}')">` : '').join('');
-            }
-
-            const mainImgSrc = (p.images && p.images[0]) ? p.images[0] : 'https://via.placeholder.com/250';
+            let thumbsHtml = p.images.map(img => `<img src="${img}" class="thumb" onclick="changeImage('p${p.id}-main', '${img}')">`).join('');
 
             container.innerHTML += `
                 <div class="product-card">
-                    <img id="p${p.id}-main" src="${mainImgSrc}" class="main-img" alt="${title}">
+                    <img id="p${p.id}-main" src="${p.images[0]}" class="main-img" alt="${title}">
                     <div class="thumb-row">${thumbsHtml}</div>
                     <div class="title">${title}</div>
-                    <div class="price-box"><span class="price">Rs. ${p.price}</span> ${p.oldPrice ? `<span class="old-price">Rs. ${p.oldPrice}</span>` : ''}</div>
+                    <div class="price-box"><span class="price">Rs. ${p.price}</span> <span class="old-price">Rs. ${p.oldPrice}</span></div>
                     <div class="bank-info">${payText}</div>
                     <div class="btn-group">
-                        <button class="btn-cart" onclick="addToCart(${p.id})">${btnCartText}</button>
-                        <button class="btn-buy" onclick="buyNow(${p.id})">${btnBuyText}</button>
+                        <button class="btn-cart" onclick="addToCart('${p.id}')">${btnCartText}</button>
+                        <button class="btn-buy" onclick="buyNow('${p.id}')">${btnBuyText}</button>
                     </div>
                 </div>
             `;
         });
-    };
+    }
 
-    // Language Selector Toggle
-    window.toggleLanguage = function() {
+    // Toggle Language
+    function toggleLanguage() {
         currentLang = document.getElementById('langSelect').value;
         document.getElementById('cart-lbl').innerText = currentLang === 'ur' ? 'کارٹ' : 'Cart';
         
+        // Modal Labels
         document.getElementById('lbl-modal-title').innerText = currentLang === 'ur' ? 'آرڈر مکمل کریں' : 'Complete Order';
         document.getElementById('lbl-items').innerText = currentLang === 'ur' ? 'منتخب شدہ آئٹمز' : 'Selected Item(s)';
         document.getElementById('lbl-total').innerText = currentLang === 'ur' ? 'کل رقم' : 'Total Amount';
@@ -298,102 +200,110 @@
         document.getElementById('lbl-btn-close').innerText = currentLang === 'ur' ? 'بند کریں' : 'Close';
 
         renderProducts();
-    };
+    }
 
-    // Admin Add Product Modal Handlers
-    window.openAddProductModal = function() {
-        document.getElementById('addProductModal').style.display = 'flex';
-    };
+    function changeImage(targetId, src) {
+        document.getElementById(targetId).src = src;
+    }
 
-    window.closeAddProductModal = function() {
-        document.getElementById('addProductModal').style.display = 'none';
-    };
-
-    window.saveNewProduct = function(e) {
-        e.preventDefault();
-        
-        const titleEn = document.getElementById('npTitleEn').value;
-        const titleUr = document.getElementById('npTitleUr').value || titleEn;
-        const price = parseFloat(document.getElementById('npPrice').value);
-        const oldPrice = document.getElementById('npOldPrice').value ? parseFloat(document.getElementById('npOldPrice').value) : null;
-        
-        const img1 = document.getElementById('npImg1').value;
-        const img2 = document.getElementById('npImg2').value;
-        const img3 = document.getElementById('npImg3').value;
-
-        const imgs = [img1, img2, img3].filter(img => img && img.trim() !== '');
-
-        const newProd = {
-            id: Date.now(),
-            title_en: titleEn,
-            title_ur: titleUr,
-            price: price,
-            oldPrice: oldPrice,
-            images: imgs
-        };
-
-        const savedCustom = JSON.parse(localStorage.getItem('custom_products_v2') || '[]');
-        savedCustom.unshift(newProd);
-        localStorage.setItem('custom_products_v2', JSON.stringify(savedCustom));
-
-        loadProducts();
-        renderProducts();
-        closeAddProductModal();
-        document.getElementById('newProductForm').reset();
-        alert('Product added successfully!');
-    };
-
-    window.changeImage = function(targetId, src) {
-        const el = document.getElementById(targetId);
-        if (el) el.src = src;
-    };
-
-    window.addToCart = function(productId) {
+    function addToCart(productId) {
         const product = productsData.find(p => p.id == productId);
-        if (product) {
-            cart.push(product);
-            updateCartUI();
-            alert(currentLang === 'ur' ? 'آئٹم کارٹ میں شامل ہو گیا۔' : 'Item added to cart!');
-        }
-    };
+        cart.push(product);
+        updateCartUI();
+        alert(currentLang === 'ur' ? 'آئٹم کارٹ میں شامل ہو گیا۔' : 'Item added to cart!');
+    }
 
     function updateCartUI() {
         document.getElementById('cart-count').innerText = cart.length;
     }
 
-    window.openCartModal = function() {
+    function openCartModal() {
         if (cart.length === 0) {
             alert(currentLang === 'ur' ? 'آپ کا کارٹ خالی ہے۔' : 'Your cart is empty!');
             return;
         }
-        let itemsList = cart.map(item => (currentLang === 'ur' && item.title_ur) ? item.title_ur : item.title_en).join(', ');
+        let itemsList = cart.map(item => currentLang === 'ur' ? item.title_ur : item.title_en).join(', ');
         let total = cart.reduce((sum, item) => sum + item.price, 0);
         openCheckout(itemsList, total);
-    };
+    }
 
-    window.buyNow = function(productId) {
+    function buyNow(productId) {
         const product = productsData.find(p => p.id == productId);
-        if (product) {
-            let title = (currentLang === 'ur' && product.title_ur) ? product.title_ur : product.title_en;
-            openCheckout(title, product.price);
-        }
-    };
+        let title = currentLang === 'ur' ? product.title_ur : product.title_en;
+        openCheckout(title, product.price);
+    }
 
     function openCheckout(items, total) {
         document.getElementById('orderItems').value = items;
         document.getElementById('orderTotal').value = 'Rs. ' + total;
         document.getElementById('paymentAmount').innerText = total;
-        updatePaymentDetails();
         document.getElementById('checkoutModal').style.display = 'flex';
     }
 
-    window.closeModal = function() {
+    function closeModal() {
         document.getElementById('checkoutModal').style.display = 'none';
-    };
+    }
 
-    window.updatePaymentDetails = function() {
-        const method = document.getElementById('paymentMethod').value;
-        document.getElementById('selectedPayMethodName').innerText = method;
-    };
+    // Strict Email Domain Validation Function
+    function isValidEmail(email) {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(email)) return false;
 
-    function isValidEmail(ema
+        // Common valid domains check
+        const validDomains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'icloud.com'];
+        const domain = email.split('@')[1].toLowerCase();
+        
+        return validDomains.includes(domain) || domain.endsWith('.com') || domain.endsWith('.net') || domain.endsWith('.org');
+    }
+
+    function submitOrder(event) {
+        event.preventDefault();
+
+        let email = document.getElementById('custEmail').value.trim();
+        let emailError = document.getElementById('emailError');
+
+        // Email Validation Check
+        if (!isValidEmail(email)) {
+            emailError.style.display = 'block';
+            return;
+        } else {
+            emailError.style.display = 'none';
+        }
+
+        let items = document.getElementById('orderItems').value;
+        let total = document.getElementById('orderTotal').value;
+        let name = document.getElementById('custName').value;
+        let phone = document.getElementById('custPhone').value;
+        let address = document.getElementById('custAddress').value;
+        let senderAcc = document.getElementById('senderAccount').value;
+        let trx = document.getElementById('trxId').value;
+
+        if (trx.length < 5) {
+            alert(currentLang === 'ur' ? 'صحیح TRX ID درج کریں۔' : 'Please enter a valid Transaction TRX ID.');
+            return;
+        }
+
+        let message = `*NEW ORDER DETAILS - SMART DEALS PK*%0A%0A` +
+                      `*Items:* ${items}%0A` +
+                      `*Total:* ${total}%0A%0A` +
+                      `*CUSTOMER INFO:*%0A` +
+                      `*Name:* ${name}%0A` +
+                      `*Email:* ${email}%0A` +
+                      `*Phone:* ${phone}%0A` +
+                      `*Address:* ${address}%0A%0A` +
+                      `*PAYMENT VERIFICATION:*%0A` +
+                      `*Sender Account:* ${senderAcc}%0A` +
+                      `*TRX ID:* ${trx}`;
+
+        let whatsappURL = `https://wa.me/923711965637?text=${message}`;
+        window.open(whatsappURL, '_blank');
+        closeModal();
+    }
+
+    // Initial Render
+    renderProducts();
+</script>
+
+</body>
+    </html>
+        
