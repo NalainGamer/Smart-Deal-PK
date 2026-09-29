@@ -175,8 +175,8 @@
 </div>
 
 <script>
-    // Initial Dynamic Products Array
-    let productsData = [
+    // Default Products Array with All 4 Initial Items
+    const defaultProductsData = [
         {
             id: 1,
             title_en: "Moisturizing Spa Gel Socks (Silicon Feet Care)",
@@ -211,18 +211,28 @@
         }
     ];
 
-    // Load saved products from LocalStorage if available
+    let productsData = [...defaultProductsData];
+
+    // Load saved custom products from LocalStorage if available
     const savedProducts = localStorage.getItem('custom_products');
     if (savedProducts) {
-        productsData = JSON.parse(savedProducts);
+        try {
+            const parsed = JSON.parse(savedProducts);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                productsData = parsed;
+            }
+        } catch(e) {
+            console.error("LocalStorage parsing error:", e);
+        }
     }
 
     let currentLang = 'en';
     let cart = [];
 
-    // Render Products
+    // Render Products Dynamic Function
     function renderProducts() {
         const container = document.getElementById('productList');
+        if (!container) return;
         container.innerHTML = '';
 
         productsData.forEach(p => {
@@ -231,25 +241,30 @@
             const btnBuyText = currentLang === 'ur' ? '⚡ ابھی خریدیں' : '⚡ Buy Now';
             const payText = currentLang === 'ur' ? 'ایزی پیسہ / جیز کیش: <strong>03711965637</strong> (پہلے پیمنٹ بھیجیں)' : 'EasyPaisa / JazzCash: <strong>03711965637</strong> (Send Payment First)';
 
-            let thumbsHtml = p.images.map(img => img ? `<img src="${img}" class="thumb" onclick="changeImage('p${p.id}-main', '${img}')">` : '').join('');
+            let thumbsHtml = '';
+            if (p.images && p.images.length > 0) {
+                thumbsHtml = p.images.map(img => img ? `<img src="${img}" class="thumb" onclick="changeImage('p${p.id}-main', '${img}')">` : '').join('');
+            }
+
+            const mainImgSrc = (p.images && p.images[0]) ? p.images[0] : 'https://via.placeholder.com/250';
 
             container.innerHTML += `
                 <div class="product-card">
-                    <img id="p${p.id}-main" src="${p.images[0]}" class="main-img" alt="${title}">
+                    <img id="p${p.id}-main" src="${mainImgSrc}" class="main-img" alt="${title}">
                     <div class="thumb-row">${thumbsHtml}</div>
                     <div class="title">${title}</div>
                     <div class="price-box"><span class="price">Rs. ${p.price}</span> ${p.oldPrice ? `<span class="old-price">Rs. ${p.oldPrice}</span>` : ''}</div>
                     <div class="bank-info">${payText}</div>
                     <div class="btn-group">
-                        <button class="btn-cart" onclick="addToCart('${p.id}')">${btnCartText}</button>
-                        <button class="btn-buy" onclick="buyNow('${p.id}')">${btnBuyText}</button>
+                        <button class="btn-cart" onclick="addToCart(${p.id})">${btnCartText}</button>
+                        <button class="btn-buy" onclick="buyNow(${p.id})">${btnBuyText}</button>
                     </div>
                 </div>
             `;
         });
     }
 
-    // Toggle Language
+    // Language Selector Toggle
     function toggleLanguage() {
         currentLang = document.getElementById('langSelect').value;
         document.getElementById('cart-lbl').innerText = currentLang === 'ur' ? 'کارٹ' : 'Cart';
@@ -269,7 +284,7 @@
         renderProducts();
     }
 
-    // Add Product Modal Functions
+    // Admin Add Product Modal Handlers
     function openAddProductModal() {
         document.getElementById('addProductModal').style.display = 'flex';
     }
@@ -290,7 +305,7 @@
         const img2 = document.getElementById('npImg2').value;
         const img3 = document.getElementById('npImg3').value;
 
-        const imgs = [img1, img2, img3].filter(img => img.trim() !== '');
+        const imgs = [img1, img2, img3].filter(img => img && img.trim() !== '');
 
         const newProd = {
             id: Date.now(),
@@ -301,7 +316,7 @@
             images: imgs
         };
 
-        productsData.unshift(newProd); // Add to top of array
+        productsData.unshift(newProd);
         localStorage.setItem('custom_products', JSON.stringify(productsData));
 
         renderProducts();
@@ -310,15 +325,20 @@
         alert('Product added successfully and updated on website!');
     }
 
+    // Change Main Display Image on Thumbnail Click
     function changeImage(targetId, src) {
-        document.getElementById(targetId).src = src;
+        const el = document.getElementById(targetId);
+        if (el) el.src = src;
     }
 
+    // Add To Cart Handler
     function addToCart(productId) {
         const product = productsData.find(p => p.id == productId);
-        cart.push(product);
-        updateCartUI();
-        alert(currentLang === 'ur' ? 'آئٹم کارٹ میں شامل ہو گیا۔' : 'Item added to cart!');
+        if (product) {
+            cart.push(product);
+            updateCartUI();
+            alert(currentLang === 'ur' ? 'آئٹم کارٹ میں شامل ہو گیا۔' : 'Item added to cart!');
+        }
     }
 
     function updateCartUI() {
@@ -337,8 +357,10 @@
 
     function buyNow(productId) {
         const product = productsData.find(p => p.id == productId);
-        let title = (currentLang === 'ur' && product.title_ur) ? product.title_ur : product.title_en;
-        openCheckout(title, product.price);
+        if (product) {
+            let title = (currentLang === 'ur' && product.title_ur) ? product.title_ur : product.title_en;
+            openCheckout(title, product.price);
+        }
     }
 
     function openCheckout(items, total) {
@@ -379,21 +401,4 @@
         let total = document.getElementById('orderTotal').value;
         let name = document.getElementById('custName').value;
         let phone = document.getElementById('custPhone').value;
-        let address = document.getElementById('custAddress').value;
-        let senderAcc = document.getElementById('senderAccount').value;
-        let trx = document.getElementById('trxId').value;
-
-        if (trx.length < 5) {
-            alert(currentLang === 'ur' ? 'صحیح TRX ID درج کریں۔' : 'Please enter a valid Transaction TRX ID.');
-            return;
-        }
-
-        let message = `*NEW ORDER DETAILS - SMART DEALS PK*%0A%0A` +
-                      `*Items:* ${items}%0A` +
-                      `*Total:* ${total}%0A%0A` +
-                      `*CUSTOMER INFO:*%0A` +
-                      `*Name:* ${name}%0A` +
-                      `*Email:* ${email}%0A` +
-                      `*Phone:* ${phone}%0A` +
-                      `*Address:* ${address}%0A%0A` +
-             
+        let address = document.getEle
