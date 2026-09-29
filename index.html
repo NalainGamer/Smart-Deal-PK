@@ -108,6 +108,7 @@
             display: flex;
             gap: 6px;
             padding: 8px 12px 0 12px;
+            overflow-x: auto;
         }
         .thumb {
             width: 42px;
@@ -116,6 +117,7 @@
             object-fit: cover;
             cursor: pointer;
             border: 2px solid #e5e7eb;
+            flex-shrink: 0;
         }
         .thumb.active {
             border-color: #f57224;
@@ -324,7 +326,7 @@
 </div>
 
 <div class="hero-banner">
-    <span>FLASH SALE</span> Free Cash on Delivery & Direct WhatsApp Checkout
+    <span>FLASH SALE</span> Free Delivery & Guaranteed Low Prices
 </div>
 
 <div class="container">
@@ -333,12 +335,57 @@
         <span style="color:#f57224; font-size:12px;">100% Verified</span>
     </div>
 
-    <!-- Product 1 -->
+    <!-- Product 1 (New) -->
     <div class="product-card">
-        <img id="img1" src="https://i.ibb.co/G4bBTKtK/image1.jpg" class="main-img">
+        <img id="img1" src="https://ibb.co/ds8NtQ90" class="main-img">
         <div class="thumb-row">
-            <img src="https://i.ibb.co/G4bBTKtK/image1.jpg" class="thumb active" data-main="img1">
-            <img src="https://i.ibb.co/N6GfYySv/image2.jpg" class="thumb" data-main="img1">
+            <img src="https://ibb.co/ds8NtQ90" class="thumb active" data-main="img1">
+            <img src="https://ibb.co/YB47nBrH" class="thumb" data-main="img1">
+            <img src="https://ibb.co/svFhJh19" class="thumb" data-main="img1">
+            <img src="https://ibb.co/kV9KVzbr" class="thumb" data-main="img1">
+        </div>
+        <div class="details">
+            <div class="product-title">Moisturizing Spa Gel Socks | Silicon Socks For Women | Foot Care Spa Gel Socks</div>
+            <div class="price-row">
+                <span class="current-price">Rs. 500</span>
+                <span class="old-price">Rs. 1,000</span>
+                <span class="discount-tag">-50%</span>
+            </div>
+            <div class="btn-row">
+                <button type="button" class="btn-add-cart" id="cart1">Add to Cart</button>
+                <button type="button" class="btn-buy-now" id="buy1">Buy Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product 2 (New) -->
+    <div class="product-card">
+        <img id="img2" src="https://ibb.co/1Y5FLGmC" class="main-img">
+        <div class="thumb-row">
+            <img src="https://ibb.co/1Y5FLGmC" class="thumb active" data-main="img2">
+            <img src="https://ibb.co/s98KvTqj" class="thumb" data-main="img2">
+            <img src="https://ibb.co/Z6QPV48d" class="thumb" data-main="img2">
+        </div>
+        <div class="details">
+            <div class="product-title">Purple Teeth Whitening Strips for Sensitive Colour Corrector for White Teeth | Oral Care</div>
+            <div class="price-row">
+                <span class="current-price">Rs. 500</span>
+                <span class="old-price">Rs. 1,000</span>
+                <span class="discount-tag">-50%</span>
+            </div>
+            <div class="btn-row">
+                <button type="button" class="btn-add-cart" id="cart2">Add to Cart</button>
+                <button type="button" class="btn-buy-now" id="buy2">Buy Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="product-card">
+        <img id="img3" src="https://i.ibb.co/G4bBTKtK/image1.jpg" class="main-img">
+        <div class="thumb-row">
+            <img src="https://i.ibb.co/G4bBTKtK/image1.jpg" class="thumb active" data-main="img3">
+            <img src="https://i.ibb.co/N6GfYySv/image2.jpg" class="thumb" data-main="img3">
         </div>
         <div class="details">
             <div class="product-title">Sank Magic Practice Copybook Set - 4 Books + 1 Pen + 10 Refills</div>
@@ -348,19 +395,19 @@
                 <span class="discount-tag">-30%</span>
             </div>
             <div class="btn-row">
-                <button type="button" class="btn-add-cart" id="cart1">Add to Cart</button>
-                <button type="button" class="btn-buy-now" id="buy1">Buy Now</button>
+                <button type="button" class="btn-add-cart" id="cart3">Add to Cart</button>
+                <button type="button" class="btn-buy-now" id="buy3">Buy Now</button>
             </div>
         </div>
     </div>
 
-    <!-- Product 2 -->
+    <!-- Product 4 -->
     <div class="product-card">
-        <img id="img2" src="https://i.ibb.co/Rpj3P9Tn/cam1.jpg" class="main-img">
+        <img id="img4" src="https://i.ibb.co/Rpj3P9Tn/cam1.jpg" class="main-img">
         <div class="thumb-row">
-            <img src="https://i.ibb.co/Rpj3P9Tn/cam1.jpg" class="thumb active" data-main="img2">
-            <img src="https://i.ibb.co/dw1gTTJM/cam2.jpg" class="thumb" data-main="img2">
-            <img src="https://i.ibb.co/WvhZzHxC/cam3.jpg" class="thumb" data-main="img2">
+            <img src="https://i.ibb.co/Rpj3P9Tn/cam1.jpg" class="thumb active" data-main="img4">
+            <img src="https://i.ibb.co/dw1gTTJM/cam2.jpg" class="thumb" data-main="img4">
+            <img src="https://i.ibb.co/WvhZzHxC/cam3.jpg" class="thumb" data-main="img4">
         </div>
         <div class="details">
             <div class="product-title">Kids DIY Instant Print Digital Camera with Photo Printing</div>
@@ -370,8 +417,8 @@
                 <span class="discount-tag">-50%</span>
             </div>
             <div class="btn-row">
-                <button type="button" class="btn-add-cart" id="cart2">Add to Cart</button>
-                <button type="button" class="btn-buy-now" id="buy2">Buy Now</button>
+                <button type="button" class="btn-add-cart" id="cart4">Add to Cart</button>
+                <button type="button" class="btn-buy-now" id="buy4">Buy Now</button>
             </div>
         </div>
     </div>
@@ -440,7 +487,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn-buy-now" style="width:100%; margin-top:10px;">Place Order via WhatsApp</button>
+            <button type="submit" class="btn-buy-now" style="width:100%; margin-top:10px;">Proceed to Payment</button>
         </form>
     </div>
 </div>
@@ -451,8 +498,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentOrder = [];
 
     const products = {
-        1: { id: 1, name: "Sank Magic Copybook Set", price: 500 },
-        2: { id: 2, name: "Kids DIY Digital Camera", price: 3500 }
+        1: { id: 1, name: "Moisturizing Spa Gel Socks", price: 500 },
+        2: { id: 2, name: "Purple Teeth Whitening Strips", price: 500 },
+        3: { id: 3, name: "Sank Magic Copybook Set", price: 500 },
+        4: { id: 4, name: "Kids DIY Digital Camera", price: 3500 }
     };
 
     // Thumbnails image change
@@ -468,10 +517,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add To Cart
     document.getElementById('cart1').addEventListener('click', () => addItem(1));
     document.getElementById('cart2').addEventListener('click', () => addItem(2));
+    document.getElementById('cart3').addEventListener('click', () => addItem(3));
+    document.getElementById('cart4').addEventListener('click', () => addItem(4));
 
     // Buy Now
     document.getElementById('buy1').addEventListener('click', () => directBuy(1));
     document.getElementById('buy2').addEventListener('click', () => directBuy(2));
+    document.getElementById('buy3').addEventListener('click', () => directBuy(3));
+    document.getElementById('buy4').addEventListener('click', () => directBuy(4));
 
     // Open & Close Modals
     document.getElementById('openCartBtn').addEventListener('click', openCartModal);
@@ -529,41 +582,4 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Payment Box handler
-    document.getElementById('paySelect').addEventListener('change', function() {
-        let box = document.getElementById('payInfoBox');
-        if (this.value === "EasyPaisa" || this.value === "JazzCash") {
-            box.style.display = "block";
-        } else {
-            box.style.display = "none";
-        }
-    });
-
-    // Form Submit
-    document.getElementById('checkoutForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        let name = document.getElementById('custName').value;
-        let phone = document.getElementById('custPhone').value;
-        let address = document.getElementById('custAddress').value;
-        let method = document.getElementById('paySelect').value;
-        let sender = document.getElementById('senderNum').value;
-
-        let total = currentOrder.reduce((sum, item) => sum + item.price, 0);
-        let itemsText = currentOrder.map(i => i.name + " (Rs. " + i.price + ")").join(", ");
-
-        let msg = "*NEW SMART DEALS PK ORDER*%0A%0A" +
-            "*Items:* " + encodeURIComponent(itemsText) + "%0A" +
-            "*Total:* Rs. " + total + "%0A" +
-            "*Customer Name:* " + encodeURIComponent(name) + "%0A" +
-            "*Phone:* " + encodeURIComponent(phone) + "%0A" +
-            "*Address:* " + encodeURIComponent(address) + "%0A" +
-            "*Payment Method:* " + encodeURIComponent(method) + "%0A" +
-            "*Sender Number:* " + encodeURIComponent(sender);
-
-        window.location.href = "https://wa.me/923711965637?text=" + msg;
-    });
-});
-</script>
-
-</body>
-    </html>
-    
+    document.getElementById('paySelect').addEventListene
