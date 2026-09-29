@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Deals PK - Payment</title>
+    <title>Smart Deals PK - Premium Socks</title>
     <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
@@ -12,56 +13,135 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
-            padding: 20px;
+            padding: 20px 10px;
         }
         .payment-card {
             background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             max-width: 380px;
             width: 100%;
             text-align: center;
         }
-        h2 { margin-bottom: 10px; color: #333; }
-        .amount { font-size: 24px; font-weight: bold; color: #28a745; margin-bottom: 15px; }
-        .info-box { background: #eef2f5; padding: 12px; border-radius: 6px; font-size: 13px; margin-bottom: 20px; text-align: left; line-height: 1.5; }
-        label { display: block; text-align: left; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
-        input, select, button {
+        h2 { margin-bottom: 5px; color: #333; font-size: 20px; }
+        .product-title { color: #666; font-size: 14px; margin-bottom: 10px; }
+        .amount { font-size: 22px; font-weight: bold; color: #28a745; margin-bottom: 15px; }
+
+        /* Slider Styles */
+        .slider-container {
+            position: relative;
+            max-width: 100%;
+            margin: 0 auto 15px auto;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: #fafafa;
+        }
+        .slider-wrapper {
+            display: flex;
+            transition: transform 0.3s ease-in-out;
+        }
+        .slide {
+            min-width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .slide img {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+        .prev-btn, .next-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 16px;
+            user-select: none;
+            width: auto;
+            margin-bottom: 0;
+        }
+        .prev-btn { left: 8px; }
+        .next-btn { right: 8px; }
+        .dots-container {
+            position: absolute;
+            bottom: 8px;
+            width: 100%;
+            text-align: center;
+        }
+        .dot {
+            height: 8px;
+            width: 8px;
+            margin: 0 3px;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .dot.active { background-color: #007bff; width: 12px; border-radius: 4px; }
+
+        .info-box { background: #eef2f5; padding: 12px; border-radius: 6px; font-size: 13px; margin-bottom: 15px; text-align: left; line-height: 1.5; }
+        label { display: block; text-align: left; margin-bottom: 5px; font-weight: bold; font-size: 13px; }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
             border: 1px solid #ccc;
             border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 15px;
+            font-size: 14px;
         }
         .submit-btn {
+            width: 100%;
+            padding: 12px;
             background-color: #25D366;
             color: white;
             border: none;
+            border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 15px;
+            margin-top: 5px;
         }
-        .submit-btn:hover { background-color: #128C7E; }
-        .error { color: red; font-size: 12px; text-align: left; margin-top: -10px; margin-bottom: 10px; display: none; }
+        .submit-btn:active { background-color: #128C7E; }
+        .error { color: red; font-size: 12px; text-align: left; margin-top: -8px; margin-bottom: 10px; display: none; }
     </style>
 </head>
 <body>
 
 <div class="payment-card">
     <h2>Smart Deals PK</h2>
-    <p>Complete your payment below</p>
-    <div class="amount">Rs. 500</div>
+    <div class="product-title">Premium Socks Pair</div>
+    <div class="amount">Price: Rs. 500</div>
+
+    <!-- Image Slider -->
+    <div class="slider-container" id="sliderContainer">
+        <div class="slider-wrapper" id="sliderWrapper">
+            <div class="slide"><img src="./IMG_20260929_072619.jpg" alt="Socks Photo 1"></div>
+            <div class="slide"><img src="./IMG_20260929_072633.jpg" alt="Socks Photo 2"></div>
+            <div class="slide"><img src="./IMG_20260929_072644.jpg" alt="Socks Photo 3"></div>
+        </div>
+        <button class="prev-btn" id="prevBtn" type="button">&#10094;</button>
+        <button class="next-btn" id="nextBtn" type="button">&#10095;</button>
+        <div class="dots-container">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+        </div>
+    </div>
 
     <div class="info-box">
         <strong>Payment Instructions:</strong><br>
-        1. Open EasyPaisa or JazzCash app.<br>
-        2. Send <strong>Rs. 500</strong> to: <strong>03711965637</strong>.<br>
-        3. Enter your phone number & 11-digit TrxID below.<br>
-        4. Tap the green button to open WhatsApp and send details.
+        1. Send <strong>Rs. 500</strong> via EasyPaisa / JazzCash to: <strong>03711965637</strong>.<br>
+        2. Enter your details & TrxID below.<br>
+        3. Tap the green button to open WhatsApp and send payment details.
     </div>
 
     <form id="paymentForm">
@@ -72,29 +152,69 @@
         </select>
 
         <label for="phone">Your Mobile Number</label>
-        <input type="tel" id="phone" placeholder="03XXXXXXXXX" required maxlength="11">
+        <input type="tel" id="phone" placeholder="03XXXXXXXXX" maxlength="11">
         <div id="phoneError" class="error">Enter a valid 11-digit number starting with 03.</div>
 
         <label for="trxid">Transaction ID (TrxID)</label>
-        <input type="text" id="trxid" placeholder="Enter 11-digit TrxID" required maxlength="11">
-        <div id="trxError" class="error">TrxID must be exactly 11 numeric digits (no letters allowed).</div>
+        <input type="text" id="trxid" placeholder="Enter 11-digit TrxID" maxlength="11">
+        <div id="trxError" class="error">TrxID must be exactly 11 numeric digits (no letters).</div>
 
-        <button type="button" class="submit-btn" onclick="processPayment()">Send Payment Proof on WhatsApp</button>
+        <button type="submit" class="submit-btn" id="submitBtn">Send Payment Proof on WhatsApp</button>
     </form>
 </div>
 
 <script>
-    function processPayment() {
-        var phone = document.getElementById('phone').value.trim();
-        var trxid = document.getElementById('trxid').value.trim();
-        var method = document.getElementById('method').value;
+    // --- SLIDER LOGIC ---
+    const wrapper = document.getElementById('sliderWrapper');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentIndex = 0;
+    const totalSlides = 3;
 
-        var phoneError = document.getElementById('phoneError');
-        var trxError = document.getElementById('trxError');
+    function updateSlider(index) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+        currentIndex = index;
+        wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentIndex);
+        });
+    }
 
-        var isValid = true;
+    prevBtn.addEventListener('click', () => updateSlider(currentIndex - 1));
+    nextBtn.addEventListener('click', () => updateSlider(currentIndex + 1));
+    dots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            updateSlider(parseInt(e.target.getAttribute('data-index')));
+        });
+    });
 
-        // Check phone number format
+    // Touch Swipe Support for Mobile
+    let startX = 0;
+    const sliderContainer = document.getElementById('sliderContainer');
+    sliderContainer.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive: true});
+    sliderContainer.addEventListener('touchend', e => {
+        let endX = e.changedTouches[0].clientX;
+        if (startX - endX > 40) updateSlider(currentIndex + 1);
+        if (endX - startX > 40) updateSlider(currentIndex - 1);
+    }, {passive: true});
+
+
+    // --- FORM VALIDATION & WHATSAPP REDIRECT ---
+    document.getElementById('paymentForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const phone = document.getElementById('phone').value.trim();
+        const trxid = document.getElementById('trxid').value.trim();
+        const method = document.getElementById('method').value;
+
+        const phoneError = document.getElementById('phoneError');
+        const trxError = document.getElementById('trxError');
+
+        let isValid = true;
+
+        // Check phone number format (03XXXXXXXXX)
         if (!/^03[0-9]{9}$/.test(phone)) {
             phoneError.style.display = 'block';
             isValid = false;
@@ -110,15 +230,16 @@
             trxError.style.display = 'none';
         }
 
-        // If inputs are valid, open WhatsApp link
+        // Redirect to WhatsApp on successful validation
         if (isValid) {
-            var message = "Hello Smart Deals PK,%0A%0AI have sent Rs. 500 payment.%0A%0A*Method:* " + method + "%0A*My Phone:* " + phone + "%0A*TrxID:* " + trxid + "%0A%0A_I am sending my payment screenshot now._";
-            var whatsappUrl = "https://wa.me/923711965637?text=" + message;
+            const message = `Hello Smart Deals PK,%0A%0AI want to buy Premium Socks (Rs. 500).%0A%0A*Method:* ${method}%0A*My Phone:* ${phone}%0A*TrxID:* ${trxid}%0A%0A_Sending payment screenshot now._`;
+            const whatsappUrl = `https://wa.me/923711965637?text=${message}`;
             
             window.location.href = whatsappUrl;
         }
-    }
+    });
 </script>
 
 </body>
-</html>
+    </html>
+    
