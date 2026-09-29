@@ -57,7 +57,11 @@
         .modal-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; text-align: center; color: #f57224; }
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; color: #333; }
-        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        
+        .payment-box { background: #fff3cd; border: 1px solid #ffeeba; padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 12px; }
+        .payment-box strong { color: #856404; }
+
         .btn-submit { background: #25D366; color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
         .btn-update { background: #f57224; color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
         .btn-close { background: #888; color: white; border: none; width: 100%; padding: 8px; border-radius: 8px; font-size: 13px; cursor: pointer; margin-top: 5px; }
@@ -74,8 +78,8 @@
     <h1>SMART DEALS PK</h1>
     <div class="cart-wrapper">
         <!-- Red Dot for Admin Add Product -->
-        <span class="red-dot-btn" title="Add New Product" onclick="openAddProductModal()"></span>
-        <button class="cart-icon-btn" onclick="openCartModal()">🛒 <span id="cart-lbl">Cart</span> (<span id="cart-count">0</span>)</button>
+        <span class="red-dot-btn" id="adminRedDot" title="Add New Product" onclick="openAddProductModal()"></span>
+        <button class="cart-icon-btn" id="cartBtn" onclick="openCartModal()">🛒 <span id="cart-lbl">Cart</span> (<span id="cart-count">0</span>)</button>
     </div>
 </div>
 
@@ -154,14 +158,24 @@
                 <textarea id="custAddress" rows="2" required placeholder="House No, Street, City"></textarea>
             </div>
             
-            <div style="background:#fff3cd; border:1px solid #ffeeba; padding:10px; border-radius:6px; margin-bottom:10px;">
-                <p style="font-size:11px; color:#856404;"><strong id="lbl-pay-check">Payment Verification Check:</strong><br>
-                Please send Rs. <span id="paymentAmount">0</span> to EasyPaisa/JazzCash <strong>03711965637</strong> and enter details below.</p>
+            <!-- IMPROVED PAYMENT METHOD SELECTOR -->
+            <div class="form-group">
+                <label id="lbl-pay-method">Select Payment Method *</label>
+                <select id="paymentMethod" onchange="updatePaymentDetails()">
+                    <option value="EasyPaisa">EasyPaisa (03711965637)</option>
+                    <option value="JazzCash">JazzCash (03711965637)</option>
+                    <option value="Bank Transfer">Bank Transfer (Ask on WhatsApp)</option>
+                </select>
+            </div>
+
+            <div class="payment-box">
+                <p><strong id="lbl-pay-check">Payment Instructions:</strong><br>
+                Send Rs. <span id="paymentAmount">0</span> via <span id="selectedPayMethodName">EasyPaisa</span> to <strong>03711965637</strong> and enter details below.</p>
             </div>
 
             <div class="form-group">
-                <label id="lbl-sender">Your Account Number *</label>
-                <input type="text" id="senderAccount" required placeholder="0300XXXXXXX">
+                <label id="lbl-sender">Your Sender Account Number / Name *</label>
+                <input type="text" id="senderAccount" required placeholder="0300XXXXXXX or Account Title">
             </div>
             <div class="form-group">
                 <label id="lbl-trx">Transaction ID / TRX ID *</label>
@@ -175,8 +189,8 @@
 </div>
 
 <script>
-    // Default Products Array with All 4 Initial Items
-    const defaultProductsData = [
+    // 1. Initial Default Products List (Guaranteed Safe)
+    const defaultProducts = [
         {
             id: 1,
             title_en: "Moisturizing Spa Gel Socks (Silicon Feet Care)",
@@ -211,18 +225,20 @@
         }
     ];
 
-    let productsData = [...defaultProductsData];
+    let productsData = [];
 
-    // Load saved custom products from LocalStorage if available
-    const savedProducts = localStorage.getItem('custom_products');
-    if (savedProducts) {
-        try {
-            const parsed = JSON.parse(savedProducts);
-            if (Array.isArray(parsed) && parsed.length > 0) {
-                productsData = parsed;
+    // Combine local storage products with default products without losing defaults
+    function loadProducts() {
+        const saved = localStorage.getItem('custom_products_v2');
+        if (saved) {
+            try {
+                const custom = JSON.parse(saved);
+                productsData = [...custom, ...defaultProducts];
+            } catch(e) {
+                productsData = [...defaultProducts];
             }
-        } catch(e) {
-            console.error("LocalStorage parsing error:", e);
+        } else {
+            productsData = [...defaultProducts];
         }
     }
 
@@ -230,7 +246,7 @@
     let cart = [];
 
     // Render Products Dynamic Function
-    function renderProducts() {
+    window.renderProducts = function() {
         const container = document.getElementById('productList');
         if (!container) return;
         container.innerHTML = '';
@@ -262,10 +278,10 @@
                 </div>
             `;
         });
-    }
+    };
 
     // Language Selector Toggle
-    function toggleLanguage() {
+    window.toggleLanguage = function() {
         currentLang = document.getElementById('langSelect').value;
         document.getElementById('cart-lbl').innerText = currentLang === 'ur' ? 'کارٹ' : 'Cart';
         
@@ -282,18 +298,18 @@
         document.getElementById('lbl-btn-close').innerText = currentLang === 'ur' ? 'بند کریں' : 'Close';
 
         renderProducts();
-    }
+    };
 
     // Admin Add Product Modal Handlers
-    function openAddProductModal() {
+    window.openAddProductModal = function() {
         document.getElementById('addProductModal').style.display = 'flex';
-    }
+    };
 
-    function closeAddProductModal() {
+    window.closeAddProductModal = function() {
         document.getElementById('addProductModal').style.display = 'none';
-    }
+    };
 
-    function saveNewProduct(e) {
+    window.saveNewProduct = function(e) {
         e.preventDefault();
         
         const titleEn = document.getElementById('npTitleEn').value;
@@ -316,36 +332,36 @@
             images: imgs
         };
 
-        productsData.unshift(newProd);
-        localStorage.setItem('custom_products', JSON.stringify(productsData));
+        const savedCustom = JSON.parse(localStorage.getItem('custom_products_v2') || '[]');
+        savedCustom.unshift(newProd);
+        localStorage.setItem('custom_products_v2', JSON.stringify(savedCustom));
 
+        loadProducts();
         renderProducts();
         closeAddProductModal();
         document.getElementById('newProductForm').reset();
-        alert('Product added successfully and updated on website!');
-    }
+        alert('Product added successfully!');
+    };
 
-    // Change Main Display Image on Thumbnail Click
-    function changeImage(targetId, src) {
+    window.changeImage = function(targetId, src) {
         const el = document.getElementById(targetId);
         if (el) el.src = src;
-    }
+    };
 
-    // Add To Cart Handler
-    function addToCart(productId) {
+    window.addToCart = function(productId) {
         const product = productsData.find(p => p.id == productId);
         if (product) {
             cart.push(product);
             updateCartUI();
             alert(currentLang === 'ur' ? 'آئٹم کارٹ میں شامل ہو گیا۔' : 'Item added to cart!');
         }
-    }
+    };
 
     function updateCartUI() {
         document.getElementById('cart-count').innerText = cart.length;
     }
 
-    function openCartModal() {
+    window.openCartModal = function() {
         if (cart.length === 0) {
             alert(currentLang === 'ur' ? 'آپ کا کارٹ خالی ہے۔' : 'Your cart is empty!');
             return;
@@ -353,52 +369,31 @@
         let itemsList = cart.map(item => (currentLang === 'ur' && item.title_ur) ? item.title_ur : item.title_en).join(', ');
         let total = cart.reduce((sum, item) => sum + item.price, 0);
         openCheckout(itemsList, total);
-    }
+    };
 
-    function buyNow(productId) {
+    window.buyNow = function(productId) {
         const product = productsData.find(p => p.id == productId);
         if (product) {
             let title = (currentLang === 'ur' && product.title_ur) ? product.title_ur : product.title_en;
             openCheckout(title, product.price);
         }
-    }
+    };
 
     function openCheckout(items, total) {
         document.getElementById('orderItems').value = items;
         document.getElementById('orderTotal').value = 'Rs. ' + total;
         document.getElementById('paymentAmount').innerText = total;
+        updatePaymentDetails();
         document.getElementById('checkoutModal').style.display = 'flex';
     }
 
-    function closeModal() {
+    window.closeModal = function() {
         document.getElementById('checkoutModal').style.display = 'none';
-    }
+    };
 
-    function isValidEmail(email) {
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!emailRegex.test(email)) return false;
+    window.updatePaymentDetails = function() {
+        const method = document.getElementById('paymentMethod').value;
+        document.getElementById('selectedPayMethodName').innerText = method;
+    };
 
-        const validDomains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'icloud.com'];
-        const domain = email.split('@')[1].toLowerCase();
-        
-        return validDomains.includes(domain) || domain.endsWith('.com') || domain.endsWith('.net') || domain.endsWith('.org');
-    }
-
-    function submitOrder(event) {
-        event.preventDefault();
-
-        let email = document.getElementById('custEmail').value.trim();
-        let emailError = document.getElementById('emailError');
-
-        if (!isValidEmail(email)) {
-            emailError.style.display = 'block';
-            return;
-        } else {
-            emailError.style.display = 'none';
-        }
-
-        let items = document.getElementById('orderItems').value;
-        let total = document.getElementById('orderTotal').value;
-        let name = document.getElementById('custName').value;
-        let phone = document.getElementById('custPhone').value;
-        let address = document.getEle
+    function isValidEmail(ema
